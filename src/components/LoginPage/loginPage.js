@@ -7,7 +7,7 @@ import './loginPage.css';
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: '',
-    password: '',
+    passwordHash: '',
   });
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState('');
@@ -27,10 +27,10 @@ const LoginPage = () => {
       newErrors.email = 'Invalid email format';
     }
 
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters long';
+    if (!formData.passwordHash) {
+      newErrors.passwordHash = 'Password is required';
+    } else if (formData.passwordHash.length < 6) {
+      newErrors.passwordHash = 'Password must be at least 6 characters long';
     }
 
     setErrors(newErrors);
@@ -44,11 +44,13 @@ const LoginPage = () => {
 
     try {
       // post request to the API endpoint for login
-      const response = await axios.post('https://localhost:7181/api/User/Login', formData, {
+      const response = await axios.post('https://localhost:7181/api/Login', formData, {
         headers: {
           'Content-Type': 'application/json',
-        },
-      });
+        },       
+    }
+
+  );
 
       if (response.status === 200) {
         const token = response.data.token;
@@ -56,9 +58,9 @@ const LoginPage = () => {
 
         // store the JWT token in localstorage
         localStorage.setItem('jwtToken', token);
-
+        localStorage.setItem('email',formData.email)
         // Redirect to the dashboard page after successful login
-        navigate('/dashboard');
+        navigate('/');
       }
     } catch (err) {
       if (err.response) {
@@ -92,12 +94,12 @@ const LoginPage = () => {
           <input
             type="password"
             id="password"
-            name="password"
-            value={formData.password}
+            name="passwordHash"
+            value={formData.passwordHash}
             onChange={handleChange}
-            className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+            className={`form-control ${errors.passwordHash ? 'is-invalid' : ''}`}
           />
-          {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+          {errors.passwordHash && <div className="invalid-feedback">{errors.passwordHash}</div>}
         </div>
 
         <button type="submit" className="btn3 btn btn-success">Login</button>

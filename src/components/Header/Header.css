@@ -34,6 +34,8 @@
   
   .custom-search-input {
     border: 1px solid #ced4da; 
+    height:45px;
+    margin-top:10px;
   }
   
   .custom-search-button {

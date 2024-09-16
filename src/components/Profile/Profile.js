@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-//import './profilePage.css';
+import './Profile.css';
 
 const ProfilePage = () => {
   const [userDetails, setUserDetails] = useState(null);
@@ -11,7 +11,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
 
   // Get userId and JWT token from localStorage
-  const userId = localStorage.getItem('userId');
+  const email = localStorage.getItem('email');
   const token = localStorage.getItem('jwtToken');
 
   useEffect(() => {
@@ -21,33 +21,35 @@ const ProfilePage = () => {
      
     } else {
       fetchUserProfile();
-      fetchUserShippingAddresses();
+
     }
   }, [token, navigate]);
 
   // Fetch user details from the backend
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(`https://localhost:7181/api/User/${userId}`, {
+      var response = await axios.get(`https://localhost:7181/api/User/email/${email}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setUserDetails(response.data);
+      fetchUserShippingAddresses(response.data.userId);
+      
     } catch (error) {
       setError('Failed to fetch user details.');
     }
   };
 
   // Fetch user shipping addresses from the backend
-  const fetchUserShippingAddresses = async () => {
+  const fetchUserShippingAddresses = async (UserId) => {
     try {
-      const response = await axios.get(`https://localhost:7181/api/ShippingAddress/user/${userId}`, {
+      const responseShipping = await axios.get(`https://localhost:7181/api/ShippingAddress/user/${UserId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setShippingAddresses(response.data);
+      setShippingAddresses(responseShipping.data);
     } catch (error) {
       setError('Failed to fetch shipping addresses.');
     }
@@ -102,6 +104,18 @@ const ProfilePage = () => {
         }}
       >
         Logout
+      </button>
+      {/*button to login as another user*/}
+      <button
+      className="btn btn-success"
+      style={{marginLeft:'20px'}}
+      onClick={
+        ()=>{
+          navigate('/login')
+        }
+      } 
+      >
+       SwitchAccount
       </button>
     </div>
   );
