@@ -1,43 +1,49 @@
-import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-export default function CartItem({ item, onQuantityChange, onRemoveItem }) {
-    function handleIncreaseQuantity ()  {
-        onQuantityChange(item.productId, item.quantity + 1);
-    };
+// CartItem.js
+import React from 'react';
 
-    function handleDecreaseQuantity () {
-        if (item.quantity > 1) {
-            onQuantityChange(item.productId, item.quantity - 1);
-        }
+
+const CartItem = ({ item, onQuantityChange, onRemoveItem }) => {
+    var item1=item.productVariants[0];
+
+    const handleQuantityChange = (e) => {
+       onQuantityChange(item.productVariantId, item.quantity + 1);
     };
 
     return (
-        <li className="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-                <h5>{item.name}</h5>
-                <p>${item.price} x {item.quantity}</p>
+        <li className="list-group-item">
+            <div className="d-flex justify-content-between">
+                <div>
+                <img
+                  src={`data:image/png;base64,${item.imageBase64}`}
+                  alt={item.name}
+                  className="product-image-main"
+                  style={{width:"400%",height:"500px"}}
+                        />
+                    <h5>{item.name}</h5>
+                    <p><strong>Size:</strong> {item1.size}</p>
+                    <p><strong>Color:</strong> {item1.color}</p>
+                    <p><strong>Price :</strong> ₹{item1.pricePerUnit}</p>
+                        
+                    <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => onRemoveItem(item.productVariantId)}
+                    >
+                        Remove
+                    </button>
+                    </div> 
             </div>
-            <div>
-                <button
-                    className="btn btn-warning btn-sm me-2"
-                    onClick={handleIncreaseQuantity}
-                >
-                    +
-                </button>
-                <button
-                    className="btn btn-warning btn-sm me-2"
-                    onClick={handleDecreaseQuantity}
-                    disabled={item.quantity <= 1}
-                >
-                    -
-                </button>
-                <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => onRemoveItem(item.productId)}
-                >
-                    Remove
-                </button>
+            <div className="d-flex justify-content-between align-items-center">
+                <input
+                    type="number"
+                    min="0"
+                    value={item.quantity}
+                    onChange={handleQuantityChange}
+                    className="form-control w-25"
+                />
+                
             </div>
         </li>
     );
-}
+};
+
+export default CartItem;

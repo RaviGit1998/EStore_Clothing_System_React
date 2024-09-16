@@ -1,51 +1,48 @@
-import { useState,useEffect } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from "axios";
+import React, { useEffect, useState } from 'react'; 
+import { Link } from 'react-router-dom';
+import './ProductList.css';
 
-export default  function ProductListing({onAddToCart}){
-   const [products,setProducts]=useState([]);
-   const [loading,setLoading] = useState(true);
-   const [error,setError]=useState(null);
+const ProductList = () => {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-   useEffect(() =>{
-      async function  fetchProducts(){
-        try{
-            const respone=await axios.get('https://localhost:7181/api/Product');
-            const data=await respone.json();
-            setProducts(data);
-          }
-          catch(error){
-            console.error('Errr Fetching Products:', error);
-          }
-       };
-         
-      fetchProducts();
-   },[]);
+    useEffect(() => {
+        fetch('https://localhost:7181/api/Product')
+            .then(response => response.json())
+            .then(data => {
+                setProducts(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setError(err);
+                setLoading(false);
+            });
+    }, []);
 
-   if (loading) return <p>Loading products...</p>; // Show loading message while fetching
-   if (error) return <p>{error}</p>; // Show error message if there's an error
-   return(
-    <div className="container mt-4">
-    <h2>Product Listing</h2>
-    <div className="row">
-        {products.map(product => (
-            <div className="col-md-4 mb-4" key={product.id}>
-                <div className="card">
-                    <img src={product.imageUrl} className="card-img-top" alt={product.name} />
-                    <div className="card-body">
-                        <h5 className="card-title">{product.name}</h5>
-                        <p className="card-text">${product.price}</p>
-                        <button
-                            className="btn btn-primary"
-                            onClick={() => onAddToCart(product)}
-                        >
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
+    if (loading) return <p className="loading">Loading...</p>;
+    if (error) return <p className="error">Error: {error.message}</p>;
+
+    return (
+        <>
+            <h2 className="catalog-title">Product Catalog</h2>
+            <div className="product-list">
+                {products.map(product => (
+                    <Link to={`/product/${product.productId}`} key={product.productId} className="product-item">
+                        <div className="product-image">
+                            <img src={`data:image/png;base64,${product.imageBase64}`} alt={product.name} />
+                        </div>
+                        <div className="product-info">
+                            <h3 className="product-name">{product.name}</h3>
+                            <p className="product-description">{product.shortDescription}</p>
+                            <p className="product-price">
+                          ₹{product.productVariants?.[0]?.pricePerUnit || '0'}</p>
+                        </div>
+                    </Link>
+                ))}
             </div>
-        ))}
-    </div>
-</div>
-);
-}
+        </>
+    );
+};
+
+export default ProductList;

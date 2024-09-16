@@ -1,132 +1,287 @@
-import logo from './logo.svg';
-import './App.css';
-import { useState,useEffect } from 'react';
-import axios from 'axios';
-import OrderDetails from './components/OrderComponent/OrderDetails';
-import OrderList from './components/OrderComponent/OrderList';
-import Cart from './components/OrderComponent/Cart';
-import ProductListing from './components/OrderComponent/ProductListing';
-import Checkout from './components/OrderComponent/Checkout';
-function App() {
 
-//   const [selectedOrderId,setselectedOrderId]=useState(null);
-//   const userId=1;
-//   const handleOrderSelect=(orderId)=>{
-//     setselectedOrderId(orderId);
+// // import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+// // import ProductDetails from './components/Productssss/ProductDetails';
+// // import ProductList from './components/Productssss/ProductList';
+// // //import SearchComponent from './SearchComponent';
+// // import Cart from './components/Productssss/Cart1';
+
+
+ 
+// // function App() {
+
+// //     return (
+// //       <Router>   
+// //     <div className="App">
+// //             {/* <SearchComponent /> */}
+// //         </div>  
+// //         <Routes>
+// //             <Route path="/" element={<ProductList />} />
+// //             <Route path="/product/:id" element={<ProductDetails />} /> 
+// //             <Route path="/cart" element={<Cart />} />
+// //         </Routes>
+       
+// //     </Router>  
+
+// //     );
+// // }
+
+// // export default App;
+
+// import './App.css';
+// import { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import { BrowserRouter as Router, Route, Routes, useNavigate,RouterProvider } from 'react-router-dom';
+// import Cart from './components/Productssss/Cart1';
+// import ProductDetails from './components/Productssss/ProductDetails';
+// import ProductListing from './components/Productssss/ProductList';
+// import OrderSummary from './components/OrderComponent/OrderSummary';
+
+ 
+ 
+ 
+// function App() {
+//     const [products, setProducts] = useState([]);
+//     const [cart, setCart] = useState([]);
+//     const [isCheckout, setIsCheckout] = useState(false);
+//     const [selectedProduct, setSelectedProduct] = useState(); // To track selected product
+//     const [loading,setLoading] = useState(true);
+//     const [error, setError] = useState(null);
+//     const [id, setOrderId] = useState(null);
+ 
+   
+ 
+//     useEffect(() => {
+//       async function fetchProducts() {
+//         try {
+// const productsResponse = await axios.get('https://localhost:7181/api/Product');
+// const variantsResponse = await axios.get('https://localhost:7181/api/Product/ProductVariants');
+    
+//           console.log('Products Response:', productsResponse.data);
+//           console.log('Variants Response:', variantsResponse.data);
+    
+//           // Combining products with their variants
+//           const productsWithVariants = productsResponse.data.map(product => {
+//             const productVariants = variantsResponse.data.filter(variant => variant.productId === product.productId);
+//             return {
+//               ...product,
+//               variants: productVariants
+//             };
+//           });
+    
+//           console.log('Fetched products with variants:', productsWithVariants);
+//           setProducts(productsWithVariants);
+//           setLoading(false);
+//         } catch (error) {
+//           console.error('Error Fetching Products or Variants:', error);
+//           setError('Error fetching products or variants. Please try again.');
+//           setLoading(false);
+//         }
+//       }
+    
+//       fetchProducts();
+//     }, []);
+    
+    
+ 
+//   function handleProductClick(product) {
+//     console.log('Product clicked:', product); // Add this log
+   
+// // navigate(`/product/${product.productId}`);
+//   setSelectedProduct(product); // Store the selected product
+// }
+ 
+ 
+ 
+ 
+ 
+//   function addToCart(productVariant) {
+//     setCart((prevCart) => {
+//         const existingItem = prevCart.find((cartItem) => cartItem.productVariantId === productVariant.productVariantId);
+//         let updatedCart;
+ 
+//         if (existingItem) {
+//             updatedCart = prevCart.map((cartItem) =>
+//                 cartItem.productVariantId === productVariant.productVariantId
+//                     ? { ...cartItem, quantity: cartItem.quantity + 1 }
+//                     : cartItem
+//             );
+//         } else {
+//             updatedCart = [
+//                 ...prevCart,
+//                 { ...productVariant, quantity: 1 }
+//             ];
+//         }
+ 
+//         console.log('Updated Cart:', updatedCart); // Check the updated cart
+//         return updatedCart; // Return the new cart state
+//     });
+//     setSelectedProduct(null);
+// }
+ 
+ 
+ 
+// function updateCart(productVariantId, newQuantity) {
+//   setCart((prevCart) =>
+//       prevCart
+//           .map((cartItem) =>
+//               cartItem.productVariantId === productVariantId
+//                   ? { ...cartItem, quantity: newQuantity }
+//                   : cartItem
+//           )
+//           .filter((cartItem) => cartItem.quantity > 0)
+//   );
+// }
+ 
+ 
+//     async function placeOrder() {
+//       try {
+//           const orderItems = cart.map((cartItem) => ({
+//               productVariantId: cartItem.productVariantId,
+//               quantity: cartItem.quantity,
+//           }));
+  
+//           const orderData = {
+//               orderDate: new Date().toISOString(),
+//               userId: 1, // Replace with actual userId if needed
+//               isCancelled: false,
+//               orderItemreq: orderItems,
+//           };
+  
+// const response= await axios.post('https://localhost:7181/api/Order', orderData);
+//          console.log("Order Id",response);
+// setOrderId(response.data.id) ;
+//           setCart([]); // Clear cart on successful order
+//           setIsCheckout(true)
+         
+//       } catch (error) {
+//           console.error('Error Placing Order:', error);
+//           alert('Failed to Place Order');
+//       }
 //   }
-//   const handleDeselectOrder = () => {
-//     setselectedOrderId(null);
-// };
-   const [products,setProducts]=useState([]);
-   const [cart,setCart]=useState([]);
-   const [isCheckout, setIsCheckout] = useState(false);
+ 
+//   const uniqueItemsCount = cart.length;
+  
+//     return (
+//         <Router>
+//             <div className="App">
+//                 <header>
+                 
+//                 </header>
+//                 <main>
+//                     <button className="btn btn-primary">
+//                         <p>Cart Count: {uniqueItemsCount}</p>
+//                     </button>
+//                      {/* <button className="btn btn-primary" onClick={handleCartClick}>
+//             <p>Cart Count: {cart.length}</p>
+//           </button> */}
+//                     </main>
+//                     <Routes>
+//                         <Route path="/" element={
+//                             selectedProduct ? (
+//                                 <ProductDetails
+//                                     product={selectedProduct}
+//                                     onAddToCart={addToCart}
+//                                     onBack={() => setSelectedProduct(null)}
+//                                 />
+//                             ) : (
+//                                 <>
+//                                     <ProductListing products={products} onProductClick={handleProductClick} onAddToCart={addToCart} />
+//                                     <Cart cartItems={cart} onUpdateCart={updateCart} onPlaceOrder={placeOrder} />
+//                                 </>
+//                             )
+//                         } />
+//                         {id && isCheckout && <Route path="/order-summary/:Id" element={<OrderSummary id={id} />} />}
+//                     </Routes>
+ 
+// {/* <Routes>
+//             <Route path="/" element={<ProductListing products={products} onProductClick={handleProductClick} onAddToCart={addToCart} />} />
+//             <Route path="/product/:productId" element={<ProductDetails product={selectedProduct} onAddToCart={addToCart} onBack={() => setSelectedProduct(null)} />} />
+//             <Route path="/cart" element={<Cart cartItems={cart} onUpdateCart={updateCart} onPlaceOrder={placeOrder} />} />
+//             <Route path="/order-summary/:orderId" element={<OrderSummary id={id} />} />
+//             <Route path="/checkout" element={<Checkout onPlaceOrder={placeOrder} />} />
+//           </Routes>
+//        */}
+ 
+//             </div>
+//         </Router>
+//     );
+// }
+ 
+ 
+// export default App;
 
-   useEffect(() => {
-    async function fetchProducts() {
-        try {
-            const response = await axios.get('https://localhost:7181/api/Product'); // Adjust endpoint as needed
-            setProducts(response.data);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        }
-    }
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ProductDetails from './components/OrderComponent/ProductDetails';
+import ProductList from './components/OrderComponent/ProductListing';
+import Cart from './components/OrderComponent/Cart';
 
-    fetchProducts();
-}, []);
+function App() {
+  const [cartItems, setCartItems] = useState([]);
+  const [showCart, setShowCart] = useState(false); // State to toggle cart visibility
+  const [cartCount, setCartCount] = useState(0); // State to track the number of items in the cart
+  const addToCart = (product) => {
+    setCartItems((prevItems) => {
+      const existingItemIndex = prevItems.findIndex(item => item.productVariants[0].productVariantId === product.productVariants[0].productVariantId);
+      let updatedItems;
 
-async function addToCart(productId){
-   setCart((prevCart)=>{
-    const item =prevCart.find((item)=>item.productId==productId);
-    if(item){
-      return prevCart.map((item)=>
-      item.productId===productId ? {...item,quantity: item.quantity+1} : item);
-    }
-    else{
-      const product=products.find((product)=>product.productId===productId);
-      return[
-        ...prevCart,
-        {...product,quantity: 1}
-      ];
-    }
-   })
-}
+      if (existingItemIndex >= 0) {
+        // Update quantity if the item already exists
+        const updatedItems = [...prevItems];
+        updatedItems[existingItemIndex] = {
+            ...updatedItems[existingItemIndex],
+            quantity: updatedItems[existingItemIndex].quantity + 1
+        };
+        return updatedItems;
+       
+      } else {
+        // New item, add to the cart
+        updatedItems = [...prevItems, { ...product, quantity: 1 }];
+        alert('Item added to the cart.');
+      }
 
-async function updateCart(productId,quantity){
-    setCart((prevCart)=>
-    prevCart.map((item)=>
-    item.productId===productId ? {...item,quantity} : item).filter((item)=>item.quantity>0));
-}
+      setCartCount(updatedItems.reduce((total, item) => total + item.quantity, 0)); // Update cart count
+      return updatedItems;
+    });
+  };
 
-async function handleCheckout(address,couponCode){
-    try{
-      const response=await axios.post(`https://localhost:7181/api/Order`,{items:cart,address,couponCode})
-      setCart([]);
-      setIsCheckout(false);
-      alert('Order Placed successfully!');
-    }
-    catch(error){
-      console.log('Error Placing order:', error);
-      alert('Failed to place order.');
-    }
-}
+  const updateCart = (productVariantId, newQuantity) => {
+    setCartItems((prevItems) => {
+      if (newQuantity <= 0) {
+        // Remove the item if the quantity is zero or less
+        const updatedItems = prevItems.filter(item => item.productVariantId !== productVariantId);
+        setCartCount(updatedItems.reduce((total, item) => total + item.quantity, 0)); // Update cart count
+        return updatedItems;
+      }
+      // Update the quantity of the item
+      const updatedItems = prevItems.map(item =>
+        item.productVariantId === productVariantId ? { ...item, quantity: newQuantity } : item
+      );
+      setCartCount(updatedItems.reduce((total, item) => total + item.quantity, 0)); // Update cart count
+      return updatedItems;
+    });
+  };
 
-async function placeOrder(){
-  try{
-    await axios.post(`https://localhost:7181/api/Order`,{item:cart});
-    setCart([]);
-    alert('Order Placed Successfully');
-  }
-  catch(error){
-    console.error('Error Placing Order',error);
-    alert('Failed to Place order');
-  }
-}
+  const placeOrder = async () => {
+    // Implement your order placing logic here
+    return 12345; // Placeholder for order ID
+  };
+
   return (
-    <div className="App">
- {/* displaying the orders of a specific user */}
- {/* <div className="container mt-4">
-                <h1>E-Commerce App</h1>
-                <OrderList userId={userId} onSelectOrder={handleOrderSelect} />
-                {selectedOrderId && (
-                    <div>
-                        <button className="btn btn-secondary mb-3" onClick={handleDeselectOrder}>
-                            Back to Order List
-                        </button>
-                        <OrderDetails orderId={selectedOrderId} />
-                    </div>
-                )}
-            </div> */}
-
-
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-  <header className="App-header">
-               
-            </header>
-            <main>
-              {isCheckout ? (
-                <Checkout cart={cart} onPlaceOrder={handleCheckout} />
-              ):(
-                <>
-                <ProductListing products={products} onAddToCart={addToCart} />
-                <Cart cartItems={cart} onUpdateCart={updateCart} onPlaceOrder={placeOrder} /></>
-              )}
-                
-            </main>
-
-    </div>
+    <Router>
+      <div className="App">
+        <button onClick={() => setShowCart(!showCart)} className="ml-5">
+          Cart ({cartCount})
+        </button>
+        {showCart && (
+          <Cart cartItems={cartItems} updateCart={updateCart} placeOrder={placeOrder} />
+        )}
+        <Routes>
+          <Route path="/" element={<ProductList />} />
+          <Route path="/product/:id" element={<ProductDetails addToCart={addToCart} />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
