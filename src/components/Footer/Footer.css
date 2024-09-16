@@ -1,0 +1,72 @@
+/* Footer.css */
+
+.footer {
+    background-color: rgb(211, 210, 210);
+    padding: 20px;
+  }
+  
+  .lists {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .lists div {
+    width: 20%;
+  }
+  
+  .lists h2 {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .lists ul {
+    list-style: none;
+    padding-right:20px;
+  }
+  
+  .lists ul li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+  }
+  
+  .lists ul li:hover {
+    text-decoration: underline;
+  }
+  
+  .icons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .icons div {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icons h3 {
+    margin-right: 10px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .icons img {
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+  }
+  .icons .iconsimg2 {
+    margin-right: 10px;
+    width: 70px;
+    height: 40px;
+  }
+  
+  .icons img:hover {
+    opacity: 0.8;
+  }
+  

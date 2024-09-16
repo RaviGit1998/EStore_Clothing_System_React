@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './SignupPage.css'; // Import your custom CSS file for styling
-
+import './SignupPage.css'; 
+import { NavLink } from 'react-router-dom';
 const SignupPage = () => {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -106,6 +106,7 @@ const SignupPage = () => {
   };
 
   return (
+    <div className="sign-container">
     <div className="signup-container">
       <h2>Sign Up</h2>
       {message && <p className="message">{message}</p>}
@@ -175,8 +176,10 @@ const SignupPage = () => {
           {errors.passwordHash && <div className="invalid-feedback">{errors.passwordHash}</div>}
         </div>
 
-        <button type="submit" className="btn btn-primary">Register</button>
-      </form>   
+        <button type="submit" className="btn btn-primary">Register</button>       
+       </form> 
+      <NavLink to='/login'><button className="btn2 btn btn-outline-success">Existing User? Login</button></NavLink>
+    </div>
     </div>
   );
 };

@@ -1,16 +1,18 @@
-/* SignupPage.css */
-
+.sign-container{
+  background-color:rgb(255, 251, 251);
+  padding-top:20px;
+  margin-bottom:10px;
+}
 .signup-container {
-    max-width: 600px;
-    
-    margin:auto;
+    max-width: 600px;      
+    margin:auto;   
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background: radial-gradient(
         circle at center, 
         #7499dd,  
-        #5fc1df)
+        #5fc1df);
   }
   
   .signup-container h2 {
@@ -51,6 +53,7 @@
     border: none;
     border-radius: 4px;
     font-size: 16px;
+    margin-bottom:5px;
   }
   
   .signup-form .btn:hover {
@@ -61,5 +64,10 @@
     color: #28a745;
     text-align: center;
     margin-bottom: 20px;
+  }
+  .btn2{
+    width: 100%;
+    padding: 10px;
+    margin-bottom:5px;
   }
   
