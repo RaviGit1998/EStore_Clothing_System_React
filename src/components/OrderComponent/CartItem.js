@@ -1,13 +1,13 @@
 // CartItem.js
 import React from 'react';
 
-
 const CartItem = ({ item, onQuantityChange, onRemoveItem }) => {
     var item1=item.productVariants[0];
 
-    const handleQuantityChange = (e) => {
-       onQuantityChange(item.productVariantId, item.quantity + 1);
-    };
+    const handleQuantityChange = (event) => {
+        const newQuantity = parseInt(event.target.value, 10);
+        onQuantityChange(item.productVariants[0].productVariantId, newQuantity);
+      };
 
     return (
         <li className="list-group-item">
@@ -26,11 +26,11 @@ const CartItem = ({ item, onQuantityChange, onRemoveItem }) => {
                         
                     <button
                         className="btn btn-danger btn-sm"
-                        onClick={() => onRemoveItem(item.productVariantId)}
+                        onClick={() => onRemoveItem(item.productVariants[0].productVariantId)}
                     >
                         Remove
                     </button>
-                    </div> 
+                    </div>  
             </div>
             <div className="d-flex justify-content-between align-items-center">
                 <input

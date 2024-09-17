@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import CartItem from './CartItem';
 import { useNavigate } from 'react-router-dom';
 
-export default function Cart({ cartItems, updateCart, placeOrder }) {
+export default function Cart({ cartItems, updateCart, onPlaceOrder }) {
     const navigate = useNavigate();
     
     const handleQuantityChange = (productVariantId, newQuantity) => {
@@ -18,15 +18,22 @@ export default function Cart({ cartItems, updateCart, placeOrder }) {
     };
 
     const handlePlaceOrder = async () => {
+        // try {
+        //   await placeOrder(cartItems, setOrderId, setCart, setIsCheckout);
+        // } catch (error) {
+        //   console.error('Error during checkout:', error);
+        //   alert('Failed to Place Order');
+        // }
         try {
-            const id = await placeOrder();
-            navigate(`/order-summary/${id}`, { state: { orderItems: cartItems } });
-            alert('Order Placed Successfully');
-        } catch (error) {
-            console.error('Error Placing Order:', error);
-            alert('Failed to Place Order');
-        }
-    };
+            const id= await onPlaceOrder();
+             navigate(`/order-summary/${id}`,{ state: { orderItems: cartItems } });
+                
+             alert('Order Placed Successfully');
+         } catch (error) {
+             console.error('Error Placing Order:', error);
+             alert('Failed to Place Order');
+         }
+      };
 
     return (
         <div className="container mt-1" style={{width:"700px"}}>
@@ -49,3 +56,4 @@ export default function Cart({ cartItems, updateCart, placeOrder }) {
         </div>
     );
 }
+

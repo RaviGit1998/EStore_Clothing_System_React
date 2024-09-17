@@ -211,16 +211,29 @@
 // export default App;
 
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes,useNavigate } from 'react-router-dom';
 import ProductDetails from './components/OrderComponent/ProductDetails';
 import ProductList from './components/OrderComponent/ProductListing';
 import Cart from './components/OrderComponent/Cart';
+import axios from 'axios';
+import OrderSummary from './components/OrderComponent/OrderSummary';
+import Success from './components/OrderComponent/SuccessPage';
 
+import { AddToCart } from './components/OrderComponent/CartLogic';
+import UpdateCart from './components/OrderComponent/CartLogic';
+import PlaceOrder from './components/OrderComponent/PlaceOrder';
 function App() {
+
   const [cartItems, setCartItems] = useState([]);
   const [showCart, setShowCart] = useState(false); // State to toggle cart visibility
   const [cartCount, setCartCount] = useState(0); // State to track the number of items in the cart
-  const addToCart = (product) => {
+  const [id,setOrderId]=useState(null);
+  const [isCheckout, setIsCheckout] = useState(false); 
+
+ 
+
+
+  const AddToCart = (product) => {
     setCartItems((prevItems) => {
       const existingItemIndex = prevItems.findIndex(item => item.productVariants[0].productVariantId === product.productVariants[0].productVariantId);
       let updatedItems;
@@ -245,27 +258,87 @@ function App() {
     });
   };
 
-  const updateCart = (productVariantId, newQuantity) => {
+  const UpdateCart = (productVariantId, newQuantity) => {
     setCartItems((prevItems) => {
       if (newQuantity <= 0) {
         // Remove the item if the quantity is zero or less
-        const updatedItems = prevItems.filter(item => item.productVariantId !== productVariantId);
+        const updatedItems = prevItems.filter(item => item.productVariants[0].productVariantId !== productVariantId);
         setCartCount(updatedItems.reduce((total, item) => total + item.quantity, 0)); // Update cart count
         return updatedItems;
       }
       // Update the quantity of the item
       const updatedItems = prevItems.map(item =>
-        item.productVariantId === productVariantId ? { ...item, quantity: newQuantity } : item
+        item.productVariants[0].productVariantId === productVariantId ? { ...item, quantity: newQuantity } : item
       );
       setCartCount(updatedItems.reduce((total, item) => total + item.quantity, 0)); // Update cart count
       return updatedItems;
     });
   };
 
-  const placeOrder = async () => {
-    // Implement your order placing logic here
-    return 12345; // Placeholder for order ID
-  };
+
+// async function placeOrder(cart, setOrderId, setCart, setIsCheckout) {
+//   try {
+//     const orderItems = cart.map((cartItem) => ({
+//       productVariantId: cartItem.productVariants[0].productVariantId,
+//       quantity: cartItem.quantity,
+//     }));
+
+//     const orderData = {
+//       orderDate: new Date().toISOString(),
+//       userId: 1, // Replace with actual userId if needed
+//       isCancelled: false,
+//       orderItemreq: orderItems,
+//     };
+
+//     const response = await axios.post('https://localhost:7181/api/Order', orderData);
+//     const orderId = response.data.id; // Assuming the response contains an ID
+
+//     setOrderId(orderId); // Update the order ID state
+//     setCartItems([]); // Clear cart on successful order
+//     setIsCheckout(true); // Set checkout flag
+
+//     // Navigate to order summary page
+//     navigate(`/order-summary/${orderId}`, { state: { orderItems: cart } });
+
+//     alert('Order Placed Successfully');
+//    } catch (error) {
+//     console.error('Error Placing Order:', error);
+//     alert('Failed to Place Order');
+//   }
+// }
+
+ 
+ 
+    async function PlaceOrder() {
+      try {
+          const orderItems = cartItems.map((cartItem) => ({
+              productVariantId: cartItem.productVariants[0].productVariantId,
+              quantity: cartItem.quantity,
+          }));
+  
+          const orderData = {
+              orderDate: new Date().toISOString(),
+              userId: 2, // Replace with actual userId if needed
+              isCancelled: false,
+              orderItemreq: orderItems,
+          };
+  
+const response= await axios.post('https://localhost:7181/api/Order', orderData);
+         console.log("Order Id",response);
+
+      if (response.status === 200) {
+             const id = response.data.id; }
+      setOrderId(response.data.id) ;
+          setCartItems([]); // Clear cart on successful order
+          setIsCheckout(true)
+         
+      } catch (error) {
+          console.error('Error Placing Order:', error);
+          alert('Failed to Place Order');
+      }
+  }
+ 
+  //const uniqueItemsCount = cart.length;
 
   return (
     <Router>
@@ -274,11 +347,13 @@ function App() {
           Cart ({cartCount})
         </button>
         {showCart && (
-          <Cart cartItems={cartItems} updateCart={updateCart} placeOrder={placeOrder} />
+          <Cart cartItems={cartItems} updateCart={UpdateCart} onPlaceOrder={PlaceOrder} />
         )}
         <Routes>
           <Route path="/" element={<ProductList />} />
-          <Route path="/product/:id" element={<ProductDetails addToCart={addToCart} />} />
+          <Route path="/product/:id" element={<ProductDetails addToCart={AddToCart} />} />
+          {id && isCheckout && <Route path="/order-summary/:Id" element={<OrderSummary id={id} />} />}
+          <Route path="/Success" element={<Success />} />
         </Routes>
       </div>
     </Router>
