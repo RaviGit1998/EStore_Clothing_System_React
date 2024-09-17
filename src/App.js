@@ -9,8 +9,10 @@ import ProfilePage from './components/Profile/Profile';
 import SearchComponent from './components/SearchComponent/SearchComponent';
 import ProductDetails from './components/ProductDetails/ProductDetails';
 import Category from './components/Category/Category';
-
-
+import Wishlist from './components/Wishlist/Wishlist';
+import Cart from './components/Cart/Cart';
+import  useCart  from './components/Cart/CartLogic';
+import PlaceOrder from './components/PlaceOrder/PlaceOrder';
 const router= createBrowserRouter(
   [
     {
@@ -39,13 +41,25 @@ const router= createBrowserRouter(
         },
         {
           path:'/product/:id',
-          element:<ProductDetails/>
+          element:<ProductDetails addToCart={useCart().addToCart}/>
         },
         {
           path:'/Category',
           element:<Category/>
-        }
-      
+        },
+       {
+        path:'/wishlist',
+        element:<Wishlist/>
+       },
+       {
+        path:'/cart',
+        element: (
+          <Cart 
+              cartItems={useCart().cartItems}
+              updateCart={useCart().updateCart}
+              onPlaceOrder={PlaceOrder}
+          />)
+       }      
       ]
     }
   ]

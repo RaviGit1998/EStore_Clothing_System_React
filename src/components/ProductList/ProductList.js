@@ -25,7 +25,7 @@ const ProductList = () => {
 
     return (
         <>
-            <h2 className="catalog-title">Product Catalog</h2>
+           
             <div className="product-list">
                 {products.map(product => (
                     <Link to={`/product/${product.productId}`} key={product.productId} className="product-item">
