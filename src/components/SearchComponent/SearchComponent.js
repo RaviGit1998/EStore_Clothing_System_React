@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './SearchComponent.css';
 import { Link } from 'react-router-dom';
-
-const SearchComponent = () => {
-    const [keyword, setKeyword] = useState('');
+ 
+const SearchComponent = ({ keyword: initialKeyword }) => {
+    const [keyword, setKeyword] = useState(initialKeyword || '');
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-
-    const handleSearch = () => {
-        if (!keyword) return;
-
+ 
+    useEffect(() => {
+        if (initialKeyword) {
+            handleSearch(initialKeyword);
+        }
+    }, [initialKeyword]);
+ 
+    const handleSearch = (searchKeyword) => {
+        if (!searchKeyword) return;
+ 
         setLoading(true);
-        setError(null);       
-        fetch(`https://localhost:7181/api/Product/search?keyword=${keyword}`)
+        setError(null);      
+        fetch(`https://localhost:7181/api/Product/search?keyword=${searchKeyword}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -29,23 +35,12 @@ const SearchComponent = () => {
                 setLoading(false);
             });
     };
-
+ 
     return (
         <div className="search-component">
-            <div className="search-bar">
-                <input
-                    type="text"
-                    placeholder="Search for products..."
-                    value={keyword}
-                    onChange={e => setKeyword(e.target.value)}
-                    className="search-input"
-                />
-                <button onClick={handleSearch} className="search-button">Search</button>
-            </div>
-
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
-
+ 
             <div className="product-list">
                 {products.length > 0 ? (
                     products.map(product => (
@@ -56,16 +51,16 @@ const SearchComponent = () => {
                             <div className="product-info">
                                 <h3>{product.name}</h3>
                                 <p>{product.shortDescription}</p>
-                                <p>₹{product.pricePerUnit}</p>
+                                <p>₹{product.productVariants?.[0]?.pricePerUnit || '0'}</p>
                             </div>
                         </Link>
                     ))
                 ) : (
-                    <p></p>
+                    <p>No products found.</p>
                 )}
             </div>
         </div>
     );
 };
-
+ 
 export default SearchComponent;

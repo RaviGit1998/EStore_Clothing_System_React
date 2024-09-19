@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './SignupPage.css'; 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const SignupPage = () => {
+  const navigate= useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -83,7 +86,7 @@ const SignupPage = () => {
         },
       });
 
-      if (response.status === 201) {
+      if (response.status === 201) {      
         setMessage('User registered successfully!');
         setFormData({
           firstName: '',
@@ -92,9 +95,10 @@ const SignupPage = () => {
           phoneNumber: '',
           passwordHash: '',
         }); // Clear form fields
-     
+    
       }
-      
+      toast.success('registered successfully');
+      navigate('/login');
     } catch (err) {
       // Handle errors from API
       if (err.response) {
@@ -180,6 +184,7 @@ const SignupPage = () => {
        </form> 
       <NavLink to='/login'><button className="btn2 btn btn-outline-success">Existing User? Login</button></NavLink>
     </div>
+    <ToastContainer/>
     </div>
   );
 };

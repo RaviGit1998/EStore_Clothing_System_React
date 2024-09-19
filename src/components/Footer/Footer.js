@@ -6,9 +6,9 @@ function Footer() {
     <>
       <div className="footer">
         <div className="lists">
-          <div>
-            <h2>PRODUCT CATEGORIES</h2>
+          <div>          
             <ul>
+            <li className="lih2">PRODUCT CATEGORIES</li>
               <li>Men</li>
               <li>Women</li>
               <li>Kids</li>
@@ -17,8 +17,8 @@ function Footer() {
             </ul>
           </div>
           <div>
-            <h2>SITE INFO</h2>
             <ul>
+            <li className="lih2">SITE INFO</li>
               <li>About Online Shop</li>
               <li>Request Service</li>
               <li>Site Map</li>
@@ -27,9 +27,9 @@ function Footer() {
               <li>Contact Us</li>
             </ul>
           </div>
-          <div>
-            <h2>RESOURCE CENTER</h2>
+          <div>          
             <ul>
+            <li className="lih2">RESOURCE CENTER</li>
               <li>Product Reviews</li>
               <li>Buying Guides</li>
               <li>How Tos</li>
@@ -39,8 +39,8 @@ function Footer() {
             </ul>
           </div>
           <div>
-            <h2>POLICIES</h2>
             <ul>
+            <li className="lih2">POLICIES</li>
               <li>Terms of Use</li>
               <li>FAQs</li>
               <li>Cancellations and Return Policies</li>
@@ -52,15 +52,18 @@ function Footer() {
             </ul>
           </div>
         </div>
+        <div className="logo">
+        <img src="vastra.jpg"  alt="Logo" className="logoImg" />
+        </div>
         <div className="icons">
           <div>
             <h3>FOLLOW US</h3>
-            <img src="facebook.png" alt="Facebook Icon" />
-            <img src="instagram.png" alt="Instagram Icon" />
-            <img src="twitter.png" alt="Twitter Icon" />
+            <a href="https://www.facebook.com/vastrakurtianddresses/"><img src="facebook.png" alt="Facebook Icon" /></a>
+            <a href="https://www.instagram.com/vastra_official/?hl=en"><img src="instagram.png" alt="Instagram Icon" /></a>
+            <a href="https://www.instagram.com/vastra_official/?hl=en"><img src="twitter.png" alt="Twitter Icon" /></a>
           </div>
           <div>
-            <h3>EXPERIENCE RELIANCE DIGITAL ONLINE</h3>
+            <h3>EXPERIENCE VASTRA ONLINE</h3>
             <img className="iconsimg2"
               src="gplay.png"
               alt="Google Play"

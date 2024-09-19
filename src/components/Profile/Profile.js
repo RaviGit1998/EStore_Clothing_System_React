@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
-
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const ProfilePage = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [shippingAddresses, setShippingAddresses] = useState([]);
@@ -34,6 +35,8 @@ const ProfilePage = () => {
         },
       });
       setUserDetails(response.data);
+      //stores userid in local storage
+      localStorage.setItem("userId",response.data.userId)
       fetchUserShippingAddresses(response.data.userId);
       
     } catch (error) {
@@ -100,7 +103,9 @@ const ProfilePage = () => {
         onClick={() => {
           localStorage.removeItem('jwtToken');
           localStorage.removeItem('userId');
+          toast.success("logged out successfully");
           navigate('/login');
+        
         }}
       >
         Logout
@@ -117,6 +122,7 @@ const ProfilePage = () => {
       >
        SwitchAccount
       </button>
+      <ToastContainer/>
     </div>
   );
 };

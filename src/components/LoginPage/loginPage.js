@@ -3,7 +3,8 @@ import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import './loginPage.css';
-
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -47,11 +48,11 @@ const LoginPage = () => {
       const response = await axios.post('https://localhost:7181/api/Login', formData, {
         headers: {
           'Content-Type': 'application/json',
-        },       
+        },              
     }
 
   );
-
+  toast.success("logged in successfully")
       if (response.status === 200) {
         const token = response.data.token;
         setMessage('Login successful!');
@@ -105,12 +106,11 @@ const LoginPage = () => {
         <button type="submit" className="btn3 btn btn-success">Login</button>
         <NavLink to='/signup'><button className="btn2 btn btn-outline-success">New to Online Shop? Register</button></NavLink>
       </form>
-       
+       <ToastContainer/>
     </div>
   );
 };
 
 export default LoginPage;
-
 
 

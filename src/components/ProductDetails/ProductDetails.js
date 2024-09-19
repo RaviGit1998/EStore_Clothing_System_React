@@ -1,9 +1,14 @@
 
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams,useOutletContext } from 'react-router-dom';
 import './ProductDetails.css';
+import { CartContext } from '../Cart/CartContext';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const ProductDetails = ({addToCart}) => {
+const ProductDetails = () => {
+
+    const { addToCart } = useContext(CartContext);
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -28,8 +33,8 @@ const ProductDetails = ({addToCart}) => {
     }, [id]);
 
     const handleAddToCart = () => {
-        addToCart(product);
-        alert("Product added to cart");
+         addToCart(product);
+       toast.success("Product added to the Cart");
     };
 
     const handleBuyNow = () => {
@@ -117,6 +122,7 @@ const ProductDetails = ({addToCart}) => {
                 <p className="product-created-date"><strong>Created on:</strong> {new Date(product.createdDate).toLocaleDateString()}</p>
                 <p className="product-modified-date"><strong>Last Modified on:</strong> {new Date(product.modifiedDate).toLocaleDateString()}</p>
             </div>
+            <ToastContainer /> 
         </div>
     );
 };

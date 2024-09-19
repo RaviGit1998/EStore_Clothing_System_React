@@ -6,14 +6,16 @@ import Root from './components/Root/Root';
 import LoginPage from './components/LoginPage/loginPage';
 import Homepage from './components/Homepage';
 import ProfilePage from './components/Profile/Profile';
-import SearchComponent from './components/SearchComponent/SearchComponent';
+import SearchPage from './components/SearchComponent/SearchPage';
 import ProductDetails from './components/ProductDetails/ProductDetails';
 import Category from './components/Category/Category';
 import Wishlist from './components/Wishlist/Wishlist';
 import Cart from './components/Cart/Cart';
-import  useCart  from './components/Cart/CartLogic';
-import PlaceOrder from './components/PlaceOrder/PlaceOrder';
+import { CartProvider } from './components/Cart/CartContext';
+import OrderSummaryWrapper from './components/PlaceOrder/OrderSummaryWrapper';
+import SuccessPage from './components/PlaceOrder/SuccessPage';
 const router= createBrowserRouter(
+  
   [
     {
       path:'/',
@@ -37,16 +39,17 @@ const router= createBrowserRouter(
         },
         {
           path:'/search',
-          element:<SearchComponent/>
+          element:<SearchPage/>
         },
         {
           path:'/product/:id',
-          element:<ProductDetails addToCart={useCart().addToCart}/>
+          element:<ProductDetails />
         },
         {
-          path:'/Category',
-          element:<Category/>
+          path:'/category/:categoryId',
+          element:<Category />
         },
+       
        {
         path:'/wishlist',
         element:<Wishlist/>
@@ -54,12 +57,16 @@ const router= createBrowserRouter(
        {
         path:'/cart',
         element: (
-          <Cart 
-              cartItems={useCart().cartItems}
-              updateCart={useCart().updateCart}
-              onPlaceOrder={PlaceOrder}
-          />)
-       }      
+          <Cart />)
+       } ,
+       {
+        path: '/order-summary/:id',
+        element:<OrderSummaryWrapper />
+       } ,
+       {
+        path:'/Success',
+        element:<SuccessPage/>
+       }    
       ]
     }
   ]
@@ -67,7 +74,9 @@ const router= createBrowserRouter(
 function App() {
   return (
     <>
+    <CartProvider>
     <RouterProvider router={router}></RouterProvider>
+    </CartProvider>
 
     </>
   );
