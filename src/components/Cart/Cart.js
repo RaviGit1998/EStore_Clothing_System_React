@@ -6,6 +6,7 @@ import { useNavigate} from 'react-router-dom';
 import { CartContext } from './CartContext';
  import placeOrder from '../PlaceOrder/PlaceOrder';
  import { ToastContainer,toast } from 'react-toastify';
+ import 'react-toastify/dist/ReactToastify.css';
 export default function Cart() {
     const { cartItems, updateCart } = useContext(CartContext);
     const navigate = useNavigate();
@@ -28,17 +29,15 @@ export default function Cart() {
             return;
         }
         if (!cartItems || cartItems.length === 0) {
-          alert('No items in cart');
+          toast.error("no items in the cart")
           return;
         }
       
         try {
           const id = await placeOrder(cartItems);
           navigate(`/order-summary/${id}`, { state: { orderItems: cartItems } });
-          alert('Order Placed Successfully');
         } catch (error) {
           console.error('Error Placing Order:', error);
-          alert('Failed to Place Order');
         }
       };
     return (
@@ -56,7 +55,7 @@ export default function Cart() {
             </ul>
             {cartItems.length > 0 && (
                 <button className="btn btn-success mt-4" onClick={handlePlaceOrder}>
-                    Place Order
+                   Check Out
                 </button>
             )}
             <ToastContainer />  

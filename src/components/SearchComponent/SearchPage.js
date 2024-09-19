@@ -9,7 +9,7 @@ const SearchPage = () => {
  
   return (
     <div>
-      <h1>{keyword}</h1>
+      <h1 className="searchH1">{keyword}</h1>
       <SearchComponent keyword={keyword} />
     </div>
   );

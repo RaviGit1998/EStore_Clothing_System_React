@@ -5,9 +5,10 @@ import './ProductDetails.css';
 import { CartContext } from '../Cart/CartContext';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useNavigate } from 'react-router-dom';
+import placeOrder from '../PlaceOrder/PlaceOrder';
 const ProductDetails = () => {
-
+    const navigate=useNavigate();
     const { addToCart } = useContext(CartContext);
     const { id } = useParams();
     const [product, setProduct] = useState(null);
@@ -37,18 +38,18 @@ const ProductDetails = () => {
        toast.success("Product added to the Cart");
     };
 
-    const handleBuyNow = () => {
-        console.log('Buy now:', product);
+    const handleBuyNow =async () => {
+        const Id = await placeOrder([product]);
+        navigate(`/order-summary/${Id}`, { state: { orderItems: [product] } });
     };
-
     const handleAddToWishlist = () => {
         let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
         if (!wishlist.find(item => item.productId === product.productId)) {
             wishlist.push(product);
             localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            console.log('Added to wishlist:', product);
+          toast.success("item added to wishlist")
         } else {
-            console.log('Item already in wishlist');
+           toast.warn("item is already in wishlist");
         }
     };
 

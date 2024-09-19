@@ -1,56 +1,4 @@
 
-
-// import { useState } from 'react';
-
-// // Custom hook for managing cart operations
-// export function useCart() {
-//     const [cartItems, setCartItems] = useState([]);
-//     const [cartCount, setCartCount] = useState(0);
-
-//     const addToCart = (product) => {
-//         setCartItems((prevItems) => {
-//             const existingItemIndex = prevItems.findIndex(item => item.productVariants[0].productVariantId === product.productVariants[0].productVariantId);
-//             let updatedItems;
-
-//             if (existingItemIndex >= 0) {
-//                 // Update quantity if the item already exists
-//                 updatedItems = [...prevItems];
-//                 updatedItems[existingItemIndex] = {
-//                     ...updatedItems[existingItemIndex],
-//                     quantity: updatedItems[existingItemIndex].quantity + 1
-//                 };
-//             } else {
-//                 // New item, add to the cart
-//                 updatedItems = [...prevItems, { ...product, quantity: 1 }];
-//                 alert('Item added to the cart.');
-//             }
-
-//             setCartCount(updatedItems.reduce((total, item) => total + item.quantity, 0));
-//             return updatedItems;
-//         });
-//     };
-
-//     const updateCart = (productVariantId, newQuantity) => {
-//         setCartItems((prevItems) => {
-//             if (newQuantity <= 0) {
-//                 // Remove the item if the quantity is zero or less
-//                 const updatedItems = prevItems.filter(item => item.productVariants[0].productVariantId !== productVariantId);
-//                 setCartCount(updatedItems.reduce((total, item) => total + item.quantity, 0));
-//                 return updatedItems;
-//             }
-//             // Update the quantity of the item
-//             const updatedItems = prevItems.map(item =>
-//                 item.productVariants[0].productVariantId === productVariantId ? { ...item, quantity: newQuantity } : item
-//             );
-//             setCartCount(updatedItems.reduce((total, item) => total + item.quantity, 0));
-//             return updatedItems;
-//         });
-//     };
-
-//     return { cartItems, cartCount, addToCart, updateCart };
-// }
-// CartLogic.js
- 
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { ToastContainer,toast } from 'react-toastify';
@@ -74,7 +22,7 @@ export function useCart() {
             } else {
                 // New item, add to the cart
                 updatedItems = [...prevItems, { ...product, quantity: 1 }];
-               toast.success("Item Added to the cart Successfully")
+         
             }
  
             const uniqueItems = [...new Set(updatedItems.map(item => item.productVariants[0].productVariantId))];

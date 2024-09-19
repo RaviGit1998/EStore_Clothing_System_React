@@ -10,12 +10,12 @@ async function placeOrder(cartItems) {
   try {
     const orderItems = cartItems.map((cartItem) => ({
       productVariantId: cartItem.productVariants[0].productVariantId,
-      quantity: cartItem.quantity,
+      quantity: cartItem.quantity > 0 ? cartItem.quantity : 1,
     }));
 
     const orderData = {
       orderDate: new Date().toISOString(),
-      userId: 1, // Replace with actual userId if needed
+      userId:localStorage.getItem('userId'),
       status: "pending",
       orderItemreq: orderItems,
     };

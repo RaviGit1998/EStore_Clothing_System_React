@@ -59,7 +59,8 @@ const LoginPage = () => {
 
         // store the JWT token in localstorage
         localStorage.setItem('jwtToken', token);
-        localStorage.setItem('email',formData.email)
+        localStorage.setItem('email',formData.email);
+       
         // Redirect to the dashboard page after successful login
         navigate('/');
       }

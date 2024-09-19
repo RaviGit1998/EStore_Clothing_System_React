@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Wishlist.css';  // Make sure you have the CSS file for styling
-
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
 
@@ -10,7 +11,6 @@ const Wishlist = () => {
       const savedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
       setWishlist(savedWishlist);
     };
-
     fetchWishlist();
   }, []);
 
@@ -49,6 +49,7 @@ const Wishlist = () => {
           </li>
         ))}
       </ul>
+      <ToastContainer/>
     </div>
   );
 };
