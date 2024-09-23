@@ -34,7 +34,8 @@ const CartItem = ({ item, onQuantityChange, onRemoveItem }) => {
             <div className="d-flex justify-content-between align-items-center mt-2">
                 <input
                     type="number"
-                    min="0"
+                    min="1"
+                    max="10"
                     value={item.quantity || 0} // Default to 0 if item.quantity is undefined
                     onChange={handleQuantityChange}
                     className="form-control w-25"

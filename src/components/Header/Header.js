@@ -55,7 +55,7 @@ function Header() {
             {categories.map((category) => (
               <li className="nav-item" key={category.categoryId}>
                 <NavLink className="nav-link" to={`/category/${category.categoryId}`}>
-                {category.categoryName}
+                {category.categoryName.toUpperCase()}
                 </NavLink>
               </li>
             ))}

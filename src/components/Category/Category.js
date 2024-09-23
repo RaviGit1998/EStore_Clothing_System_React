@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './Category.css';
- 
+ import ProductFilter from '../Filters/ProductFilter';
 const Category = () => {
   const { categoryId } = useParams();
   const [products, setProducts] = useState([]);
@@ -34,8 +34,11 @@ const Category = () => {
   if (error) return <p>Error: {error.message}</p>;
  
   return (
-    <div className="category-page">
-      <div className="product-list">
+    <div className="category-page row">
+      <div className='col-4'>
+        <ProductFilter id={categoryId}/>      
+      </div>
+      <div className="product-list col-8">
         {products.length > 0 ? (
           products.map((product) => (
             <Link to={`/product/${product.productId}`} key={product.productId} className="product-item">

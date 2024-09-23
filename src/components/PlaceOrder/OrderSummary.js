@@ -100,9 +100,20 @@ export default function OrderSummary({id}) {
           Apply Coupon
         </button>
       </div>
+
       {discountedTotal !== null && (
         <h4 className="mt-4">Total Amount To Be Paid: ${discountedTotal}</h4>
       )}
+      <div className="mt-4">
+      <h4>Payment Options:</h4>
+      <select
+        className="form-control"
+      >
+        <option value="UPI">UPI</option>
+        <option value="Credit Card">Credit Card</option>
+        <option value="COD">Cash on Delivery (COD)</option>
+      </select>
+    </div>
      <Link to="/Success" state={{ orderItems, totalAmount, discountedTotal }}> <button className="btn btn-primary mt-4" onClick={handleProceedPayment}>
         Proceed to Payment
       </button>
