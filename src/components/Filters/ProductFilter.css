@@ -5,7 +5,7 @@
   }
  
   .filter-section-container1 {
-    width: 30%;
+
     background-color: #f9f9f9;
     padding: 15px;
     border-radius: 8px;
@@ -19,7 +19,7 @@
   .filter-section1 input,
   .filter-section1 select {
     display: block;
-    margin-top: 5px;
+    margin-top: 15px;
     padding: 8px;
     width: 100%;
     border: 1px solid #ddd;

@@ -77,6 +77,7 @@ const router= createBrowserRouter(
         path:'/passwordReset',
         element:<ResetPassword/>
        }
+     
       ]
     }
   ]
