@@ -4,7 +4,10 @@ import { useEffect } from 'react';
 import { ToastContainer,toast } from 'react-toastify';
 // Custom hook for managing cart operations
 export function useCart() {
-    const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState(() => {
+        const storedCartItems = JSON.parse(localStorage.getItem('cartContainer'));
+        return storedCartItems || [];
+    });
     const [cartCount, setCartCount] = useState(0);
  
     const addToCart = (product) => {
@@ -52,5 +55,5 @@ export function useCart() {
         setCartCount(uniqueItems.length);
       }, [cartItems]);
  
-    return { cartItems, cartCount, addToCart, updateCart };
+    return { cartItems, cartCount, addToCart, updateCart,setCartItems };
 }

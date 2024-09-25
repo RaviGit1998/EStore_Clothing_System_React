@@ -34,7 +34,12 @@ const ProductDetails = () => {
     }, [id]);
 
     const handleAddToCart = () => {
+        let cartContainer=JSON.parse(localStorage.getItem('cartContainer')) || [];
+        cartContainer.push(product);
+        localStorage.setItem('cartContainer',JSON.stringify(cartContainer));
+
          addToCart(product);
+
        toast.success("Product added to the Cart");
     };
 

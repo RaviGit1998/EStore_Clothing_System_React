@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './Adress.css';
 
 const AddressForm = ({ onSubmit, initialAddress, onCancel }) => {
+  const userId=localStorage.getItem('userId')
   const [address, setAddress] = useState({
+    userId:userId,
     street: '',
     city: '',
     state: '',

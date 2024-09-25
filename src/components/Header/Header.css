@@ -1,10 +1,11 @@
 /* Navbars.css */
 
 .custom-navbar {
-  background: linear-gradient(to right, #ff7e5f, #feb47b);
-
+  background-color: #fff;
   }
-  
+.box-nav{
+box-shadow: 0px 0px 10px rgb(182, 181, 181) inset;
+  }
   .custom-logo {
     max-width: 60px;
     border-radius: 50%;
@@ -19,7 +20,7 @@
   
   .navbar-nav .nav-link:hover {
     font-weight:bold; 
-    box-shadow: 0px,5px,skyblue;
+
   }
   
   .icon-style {

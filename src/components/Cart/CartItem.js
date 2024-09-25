@@ -36,7 +36,7 @@ const CartItem = ({ item, onQuantityChange, onRemoveItem }) => {
                     type="number"
                     min="1"
                     max="10"
-                    value={item.quantity || 0} // Default to 0 if item.quantity is undefined
+                    value={item.quantity || 1} // Default to 0 if item.quantity is undefined
                     onChange={handleQuantityChange}
                     className="form-control w-25"
                 />

@@ -14,6 +14,8 @@ import Cart from './components/Cart/Cart';
 import { CartProvider } from './components/Cart/CartContext';
 import OrderSummaryWrapper from './components/PlaceOrder/OrderSummaryWrapper';
 import SuccessPage from './components/PlaceOrder/SuccessPage';
+import ResetPassword from './components/PasswordRecovery/PasswordReset';
+import EmailSender from './components/PasswordRecovery/EmailSender';
 const router= createBrowserRouter(
   
   [
@@ -66,7 +68,15 @@ const router= createBrowserRouter(
        {
         path:'/Success',
         element:<SuccessPage/>
-       }    
+       },
+       {
+        path:'/passwordRecovery',
+        element:<EmailSender/>
+       } ,
+       {
+        path:'/passwordReset',
+        element:<ResetPassword/>
+       }
       ]
     }
   ]

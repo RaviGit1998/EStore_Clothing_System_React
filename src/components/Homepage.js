@@ -10,21 +10,21 @@ function Homepage() {
     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
 
   </div>
-  <div class="carousel-inner" style={{height:'490px'}}>
+  <div class="carousel-inner" >
     <div class="carousel-item active" data-bs-interval="10000">
-      <img src="womenSlideimg.png" className="d-block w-100 height" alt="women"></img>
+      <img src="womenSlide.jpg" className="d-block w-100 " height="490px" alt="women"></img>
       <div class="carousel-caption d-none d-md-block">
         <h5>IndoWestern Clothes</h5>       
       </div>
     </div>
     <div class="carousel-item" data-bs-interval="2000">
-      <img src="menslideimg.png"  className="d-block w-100" alt="men"></img>
+      <img src="mens.jpg"  className="d-block w-100" height="490px" alt="men"></img>
       <div class="carousel-caption d-none d-md-block">
         <h5>classic Men clothing</h5>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="kidSlideimg.png"  className="d-block w-100" alt="kid"></img>
+      <img src="kidsSlide.jpg"  className="d-block w-100" height="490px" alt="kid"></img>
       <div class="carousel-caption d-none d-md-block">
         <h5>Traditional Kids Wear</h5>
       </div>

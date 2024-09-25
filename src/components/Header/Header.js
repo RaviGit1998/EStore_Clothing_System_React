@@ -32,7 +32,7 @@ function Header() {
     }
   };
   return (
-    <nav className="navbar navbar-expand-lg custom-navbar">
+    <nav className="navbar navbar-expand-lg custom-navbar box-nav">
       <div className="container-fluid">
         <div className="d-flex align-items-center">
           <NavLink className="navbar-brand" to="/">

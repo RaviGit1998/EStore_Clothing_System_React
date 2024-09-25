@@ -96,7 +96,7 @@ const ProfilePage = () => {
       setOrderDetails(orderResponse.data);
       fetchProductDetails(orderResponse.data); // Fetch product details after getting orders
     } catch (error) {
-      setError('Failed to fetch order details.');
+      setError('No order details Found.');
     }
   };
 
@@ -201,7 +201,6 @@ const ProfilePage = () => {
                   <ul>
                     {order.orderItemRes.map((item) => {
                       const product = productDetails[item.productVariantId];
-                      console.log(product);
                       return (
                         <li key={item.productVariantId} className="profile-order-item">
                         <div className="profile-product-info">
