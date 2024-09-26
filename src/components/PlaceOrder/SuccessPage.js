@@ -118,7 +118,7 @@ function SuccessPage() {
  const { state } = location;
  console.log('State:', state);
  
- const {shippingDetails}=useContext(CartContext);
+ const { shippingDetails }=useContext(CartContext);
  
  
  if (!state) {
@@ -157,7 +157,7 @@ function SuccessPage() {
        <h4 className="mt-4">Total Amount Paid: ${discountedTotal}</h4>
      )}
  
- 
+{/*  
  
 <h5 style={{textAlign:'left'}}>Shipping Details:</h5>
      <ul className="list-group">
@@ -167,7 +167,7 @@ function SuccessPage() {
          <p>Estimated Delivery Date: {new Date(shippingDetails.estimatedDeliveryDate).toDateString()}</p>
        </li>
      </ul>
- 
+  */}
      <Link to="/">
        <button className="btn btn-primary mt-4">Return to Home Page</button>
      </Link>

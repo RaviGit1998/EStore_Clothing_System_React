@@ -50,11 +50,12 @@ const CartProvider = ({ children }) => {
     const { cartItems,setCartItems, addToCart, updateCart } = useCart();
     const [cartCount, setCartCount] = useState(0); // Add this line
     const [shippingDetails, setShippingDetails] = useState(null);
+    const [selectedAddress, setSelectedAddress] = useState(null);
+ 
     const onPlaceOrder = PlaceOrder;
     useEffect(() => {
              setCartCount(cartItems.length); // Update cartCount here
          }, [cartItems]); // Add this effect
- 
          useEffect(() => {
           if (cartItems.length === 0) {
             setCartCount(0); // Update cartCount to 0 when cart is empty
@@ -62,7 +63,7 @@ const CartProvider = ({ children }) => {
         }, [cartItems]);
         
     return (
-      <CartContext.Provider value={{ cartItems, cartCount,setCartItems, addToCart, updateCart,onPlaceOrder,shippingDetails,setShippingDetails }}>
+      <CartContext.Provider value={{ cartItems, cartCount,setCartItems, addToCart, updateCart,onPlaceOrder,shippingDetails,setShippingDetails,selectedAddress, setSelectedAddress }}>
         {children}
       </CartContext.Provider>
     );

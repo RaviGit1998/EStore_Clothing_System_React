@@ -8,6 +8,10 @@ export function useCart() {
         const storedCartItems = JSON.parse(localStorage.getItem('cartContainer'));
         return storedCartItems || [];
     });
+
+    useEffect(()=>{
+        localStorage.setItem('cartContainer',JSON.stringify(cartItems));
+    },[cartItems])
     const [cartCount, setCartCount] = useState(0);
  
     const addToCart = (product) => {
