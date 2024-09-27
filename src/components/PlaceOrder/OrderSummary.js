@@ -583,20 +583,21 @@ export default function OrderSummary({id}) {
     }
   }
  
-  const fetchUserShippingAddresses = async (userId) => {
-     userId=localStorage.getItem('userId');
-     userId=localStorage.getItem('userId');
-    try {
-      const response = await axios.get(`https://localhost:7181/api/ShippingAddress/user/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setSelectedAddress(response.data);
-    } catch (error) {
-      console.log('Failed to fetch shipping addresses.');
-    }
-    fetchUserShippingAddresses();
-  };
+  // const fetchUserShippingAddresses = async (userId) => {
+  //    userId=localStorage.getItem('userId');
+  //    userId=localStorage.getItem('userId');
+  //   try {
+  //     const response = await axios.get(`https://localhost:7181/api/ShippingAddress/user/${userId}`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //     setSelectedAddress(response.data);
+  //   } catch (error) {
+  //     console.log('Failed to fetch shipping addresses.');
+  //   }
+  //   fetchUserShippingAddresses();
+  // };
    
+  useEffect(()=>{
   const generateShippingDetails = async () => {
     try {
       const today = new Date();
@@ -618,32 +619,38 @@ export default function OrderSummary({id}) {
     } catch (error) {
       console.error(error);
     }
-  };
+  }
+  generateShippingDetails();
+})
  
-  // useEffect(() => {
-  //   async function fetchShippingDetails() {
-  //     const userId=localStorage.getItem('userId');
-  //     try {
-  //       const response = await axios.get(`https://localhost:7181/api/ShippingAddress/user/${userId}`);
-  //       setSelectedAddress(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching shipping details:', error);
-  //     }
-  //   }
+  useEffect(() => {
+    async function fetchShippingDetails() {
+      const userId=localStorage.getItem('userId');
+      try {
+        const response = await axios.get(`https://localhost:7181/api/ShippingAddress/user/${userId}`);
+        setSelectedAddress(response.data);
+      } catch (error) {
+        console.error('Error fetching shipping details:', error);
+      }
+    }
  
-  //   fetchShippingDetails();
-  // }, []);
+    fetchShippingDetails();
+  }, []);
  
- 
-  async function handleProceedPayment() {
+  async function handleProceedPayment(e) {
+    if (selectedAddress.length === 0) {
+      e.preventDefault();
+      toast.error("Please add the Address to Complete Order.");
+      return;
+    }
     try {
       const response = await axios.post(`https://localhost:7181/api/Order/Confirmation/${id}`, { totalAmount: discountedTotal });
       const orderItems = response.data.orderItems;
       // Navigate to Success Page with order details
-      const shippingDetails=await generateShippingDetails();      
+    //  const shippingDetails=await generateShippingDetails();      
        console.log('retriving order items',orderItems);
-       console.log('Shipping details:', shippingDetails);
-       setShippingDetails(shippingDetails);
+      // console.log('Shipping details:', shippingDetails);
+     //  setShippingDetails(shippingDetails);
       location.state = { orderItems, totalAmount, discountedTotal };
      
       localStorage.removeItem("cartContainer");
@@ -656,7 +663,6 @@ export default function OrderSummary({id}) {
   if (loading) {
     return <div>Loading...</div>;
   }
- 
   if (!orderItems || orderItems.length === 0) {
     return <div>No order details available.</div>;
   }
@@ -675,6 +681,9 @@ export default function OrderSummary({id}) {
                             style={{width:"400px",height:"500px"}}
                         />    
               <h5>{item.name}</h5>
+              <p>{item.shortDescription}</p>
+              <p>Size : {item.productVariants[0].size}</p>
+              <p>color : {item.productVariants[0].color}</p>
               <p>${item.productVariants[0].pricePerUnit} x {item.quantity}</p>
               </div>
           </li>
@@ -723,6 +732,7 @@ export default function OrderSummary({id}) {
     </li>
   ))}
 </ul>
+    <Link to="/profile"> <button className="btn btn-primary mt-4">Add Or Change Address</button></Link> <br />
      <Link to="/Success" state={{ orderItems, totalAmount, discountedTotal }}> <button className="btn btn-primary mt-4" onClick={handleProceedPayment}>
         Proceed to Payment
       </button>

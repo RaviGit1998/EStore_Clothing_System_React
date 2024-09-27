@@ -107,6 +107,7 @@
 }
 
  .profile-order-details {
+
     margin-bottom: 30px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -131,4 +132,12 @@
     .profile-product-image {
       margin-bottom: 10px; /* Space between image and details */
     }
+  }
+  .EditButton{
+    background-color:red;
+    color:white;
+    padding:5px 20px 5px 20px;
+    border:white;
+    border-radius:5px;
+    margin-top:5px;
   }

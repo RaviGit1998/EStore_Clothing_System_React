@@ -67,6 +67,7 @@ const LoginPage = () => {
     } catch (err) {
       if (err.response) {
         setErrors({ message: err.response.data.message || 'Invalid email or password' });
+        toast.warning("please enter correct email or password")
       } else {
         setErrors({ message: 'An error occurred' });
       }
@@ -105,8 +106,8 @@ const LoginPage = () => {
         </div>
 
         <button type="submit" className="btn3 btn btn-success">Login</button>
-        <NavLink to='/signup'><button className="btn2 btn btn-outline-success">New to Online Shop? Register</button></NavLink>
-        <NavLink to='/passwordRecovery'><button className="btn2 btn btn-outline-success">forgot password</button></NavLink>
+        <NavLink to='/signup'><h6 className="btn2">New to Online Shop? Register</h6></NavLink>
+        <NavLink to='/passwordRecovery'><p className="btn2 ">forgot password</p></NavLink>
       </form>
        <ToastContainer/>
     </div>

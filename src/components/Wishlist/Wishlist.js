@@ -38,7 +38,7 @@ const Wishlist = () => {
             <div className="wishlist-item-info">
               <h2 className="wishlist-item-title">{product.name}</h2>
               <p className="wishlist-item-price">₹{product.productVariants?.[0]?.pricePerUnit || '0'}</p>
-              <NavLink to={`/product/${product.productId}`} className="btn6 btn btn-success">View Details</NavLink>
+              <NavLink to={`/product/${product.productId}`} className="btn6 btn btn-success">View Details</NavLink><br/>
               <button 
                 className="btn6 btn btn-danger" 
                 onClick={() => handleRemoveFromWishlist(product.productId)}

@@ -1,5 +1,6 @@
  
 import React, { useState, useEffect } from 'react';
+
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
@@ -158,18 +159,19 @@ const ProfilePage = () => {
         {shippingAddresses.length === 0 ? (
           <div>
             <p>No shipping addresses found.</p>
-            <button onClick={() => setIsEditing(true)}>Add Address</button>
+            <button className="EditButton" onClick={() => setIsEditing(true)}>Add Address</button>
           </div>
         ) : (
           <ul>
             {shippingAddresses.map((address) => (
               <li key={address.shippingAddressId}>
+            
                 <p><strong>Street:</strong> {address.street}</p>
                 <p><strong>City:</strong> {address.city}</p>
                 <p><strong>State:</strong> {address.state}</p>
                 <p><strong>Country:</strong> {address.country}</p>
                 <p><strong>Postal Code:</strong> {address.postalCode}</p>
-                <button onClick={() => handleEditClick(address)}>Edit</button>
+                <button className="EditButton" onClick={() => handleEditClick(address)}>Edit</button>
               </li>
             ))}
           </ul>
@@ -255,4 +257,5 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
+
 

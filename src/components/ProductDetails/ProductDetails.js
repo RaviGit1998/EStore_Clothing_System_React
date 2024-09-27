@@ -44,8 +44,20 @@ const ProductDetails = () => {
     };
 
     const handleBuyNow =async () => {
-        const Id = await placeOrder([product]);
-        navigate(`/order-summary/${Id}`, { state: { orderItems: [product] } });
+        // const Id = await placeOrder([product]);
+        // navigate(`/order-summary/${Id}`, { state: { orderItems: [product] } });
+
+        const token = localStorage.getItem('jwtToken');
+        
+        if (!token) {
+            toast.warning("Please login to order");
+            navigate('/login');
+            return;
+        }
+        const quantity = 1; // default quantity, you can adjust this as needed
+        const productWithVariants = { ...product, quantity };
+        const Id = await placeOrder([productWithVariants]);
+        navigate(`/order-summary/${Id}`, { state: { orderItems: [productWithVariants] } });
     };
     const handleAddToWishlist = () => {
         let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];

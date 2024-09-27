@@ -103,6 +103,7 @@ const SignupPage = () => {
       // Handle errors from API
       if (err.response) {
         setErrors(err.response.data.message || 'An error occurred');
+        toast.warning("something went wrong Please try later");
       } else {
         setErrors('An error occurred');
       }
@@ -182,7 +183,7 @@ const SignupPage = () => {
 
         <button type="submit" className="btn btn-primary">Register</button>       
        </form> 
-      <NavLink to='/login'><button className="btn2 btn btn-outline-success">Existing User? Login</button></NavLink>
+      <NavLink to='/login'><h6 className="btn2">Existing User? Login</h6></NavLink>
     </div>
     <ToastContainer/>
     </div>

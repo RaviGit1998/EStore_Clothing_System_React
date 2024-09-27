@@ -145,8 +145,9 @@ function SuccessPage() {
                style={{ width: "400px", height: "500px" }}
              />
              <h5>{item.name}</h5>
-             <p>size :{item.productVariants[0].size}</p>
-             <p>color :{item.productVariants[0].color}</p>
+             <p>{item.shortDescription}</p>
+             <p>size : {item.productVariants[0].size}</p>
+             <p>color : {item.productVariants[0].color}</p>
              <p>${item.productVariants[0].pricePerUnit} x {item.quantity}</p>
            </div>
          </li>
@@ -155,19 +156,20 @@ function SuccessPage() {
      <h4 className="mt-4">Total: ${totalAmount}</h4>
      {discountedTotal !== null && (
        <h4 className="mt-4">Total Amount Paid: ${discountedTotal}</h4>
-     )}
+     )} <br />
  
-{/*  
+ 
  
 <h5 style={{textAlign:'left'}}>Shipping Details:</h5>
      <ul className="list-group">
        <li className="list-group-item">
+        <h6>Order Id : {shippingDetails.orderId}</h6>
          <p>Tracking Number: {shippingDetails.trackingNumber}</p>
          <p>Shipping Date: {new Date(shippingDetails.shippigDate).toDateString()}</p>
          <p>Estimated Delivery Date: {new Date(shippingDetails.estimatedDeliveryDate).toDateString()}</p>
        </li>
      </ul>
-  */}
+ 
      <Link to="/">
        <button className="btn btn-primary mt-4">Return to Home Page</button>
      </Link>
