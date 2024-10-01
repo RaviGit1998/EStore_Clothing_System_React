@@ -134,10 +134,25 @@
     }
   }
   .EditButton{
-    background-color:red;
+    background-color:#d9534f;
     color:white;
     padding:5px 20px 5px 20px;
     border:white;
     border-radius:5px;
     margin-top:5px;
+  }
+  .EditButton:hover{
+    background-color: #c9302c;
+  }
+  .shareButton{
+    background-color:#4f9bd9;
+    color:white;
+    padding:5px 20px 5px 20px;
+    border:white;
+    border-radius:5px;
+    margin-top:5px;
+    float:right;
+  }
+  .shareButton:hover{
+    background-color: #2869be;
   }

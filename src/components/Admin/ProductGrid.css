@@ -1,0 +1,122 @@
+/* Main Container */
+.product-grid-container {
+    margin: 20px;
+    text-align: center;
+}
+ 
+/* Add Product Button */
+.add-product-btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+ 
+.add-product-btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+ 
+/* Product Table */
+.product-table {
+    width: 100%;
+    border-collapse: collapse; /* Remove space between table cells */
+}
+ 
+.product-table th,
+.product-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+ 
+.product-table th {
+    background-color: #f4f4f4; /* Light grey background for headers */
+}
+ 
+/* Product Card */
+.product-card {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 20px; /* Space between cards */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+ 
+/* Product Image */
+.product-image {
+    max-width: 100px; /* Restrict image size */
+    height: auto;
+}
+ 
+/* Action Buttons */
+.action-buttons {
+    margin-top: 10px;
+}
+ 
+.edit-btn,
+.delete-btn {
+    background-color: #008CBA; /* Blue */
+    color: white;
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+ 
+.delete-btn {
+    background-color: #f44336; /* Red */
+}
+ 
+.edit-btn:hover {
+    background-color: #005f7f; /* Darker blue on hover */
+}
+ 
+.delete-btn:hover {
+    background-color: #c62828; /* Darker red on hover */
+}
+ 
+/* Add Product Form */
+.add-product-form {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+ 
+.add-product-form input {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px; /* Rounded corners */
+}
+ 
+/* Submit and Cancel Buttons */
+.add-product-form button {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px; /* Rounded corners */
+    border: none;
+    cursor: pointer;
+}
+ 
+.add-product-form button[type="submit"] {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+ 
+.add-product-form button[type="button"] {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+ 
+.add-product-form button[type="submit"]:hover,
+.add-product-form button[type="button"]:hover {
+    opacity: 0.9; /* Slight opacity change on hover */
+}

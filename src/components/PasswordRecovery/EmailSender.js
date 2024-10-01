@@ -36,7 +36,6 @@ const EmailSender = () => {
     <div className="recovery-container">
       <form onSubmit={handleSubmit} className="recovery-form">
         <h2>Password Recovery</h2>
-        {message && <p className="message">{message}</p>}
         {error && <p className="error">{error}</p>}
         
         <div className="form-group">

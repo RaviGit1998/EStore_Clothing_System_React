@@ -77,12 +77,13 @@ const ProductDetails = () => {
     return (
         <div className="product-details">
             <div className="product-image-section">
-                <div className="product-image">
+                <div className="product-image-list">
                     {product.imageBase64 ? (
                         <img
                             src={`data:image/png;base64,${product.imageBase64}`}
                             alt={product.name}
                             className="product-image-main"
+                            style={{height:'500px'}}
                         />
                     ) : (
                         <img
@@ -116,9 +117,9 @@ const ProductDetails = () => {
                 {product.longDesrciption && (
                     <p className="product-details-description"><strong>Details:</strong> {product.longDesrciption}</p>
                 )}
-
+{/* 
                 <p className="product-category"><strong>Category:</strong> {product.categoryId}</p>
-                <p className="product-subcategory"><strong>Subcategory:</strong> {product.subCategoryId}</p>
+                <p className="product-subcategory"><strong>Subcategory:</strong> {product.subCategoryId}</p> */}
 
                 <h3>Variants:</h3>
                 {product.productVariants && product.productVariants.length > 0 ? (
@@ -129,7 +130,7 @@ const ProductDetails = () => {
                                 <p><strong>Size:</strong> {variant.size}</p>
                                 <p><strong>Color:</strong> {variant.color}</p>
                                 <p><strong>Price Per Unit:</strong> ₹{variant.pricePerUnit || '0'}</p>
-                                <p><strong>Quantity Available:</strong> {variant.quantity}</p>
+                                {/* <p><strong>Quantity Available:</strong> {variant.quantity}</p> */}
                             </li>
                         ))}
                     </ul>
@@ -140,7 +141,7 @@ const ProductDetails = () => {
                 <p className="product-created-date"><strong>Created on:</strong> {new Date(product.createdDate).toLocaleDateString()}</p>
                 <p className="product-modified-date"><strong>Last Modified on:</strong> {new Date(product.modifiedDate).toLocaleDateString()}</p>
             </div>
-            <ToastContainer /> 
+            <ToastContainer autoClose={500}/> 
         </div>
     );
 };

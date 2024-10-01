@@ -33,7 +33,7 @@ const ResetPassword = () => {
         headers: {
           'Content-Type': 'application/json',  // Confirm that this is needed
         },
-      }
+       }
       );
       toast.success(response.data.message);
      navigate('/login');
@@ -47,6 +47,7 @@ const ResetPassword = () => {
     <div className="Password-reset">
       <form onSubmit={handleSubmit}>
         <h2>Reset Password</h2>
+        <p>This link expires in 30 Minutes</p>
         {error && <p className="error">{error}</p>}
         <div>
           <label>New Password:</label>

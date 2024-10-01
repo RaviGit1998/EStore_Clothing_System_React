@@ -16,6 +16,9 @@ import OrderSummaryWrapper from './components/PlaceOrder/OrderSummaryWrapper';
 import SuccessPage from './components/PlaceOrder/SuccessPage';
 import ResetPassword from './components/PasswordRecovery/PasswordReset';
 import EmailSender from './components/PasswordRecovery/EmailSender';
+import ShareViaEmail from './components/Profile/ShareViaEmail';
+import ProductGrid from './components/Admin/ProductGrid';
+
 const router= createBrowserRouter(
   
   [
@@ -76,6 +79,14 @@ const router= createBrowserRouter(
        {
         path:'/passwordReset',
         element:<ResetPassword/>
+       },
+       {
+        path:'/shareViaEmail',
+        element:<ShareViaEmail/>
+       },
+       {
+        path: '/Admin',
+        element: <ProductGrid />
        }
      
       ]

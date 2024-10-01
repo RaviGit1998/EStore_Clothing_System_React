@@ -26,17 +26,17 @@ const ProductList = () => {
     return (
         <>
            <h1 className="newArrivals">NEW ARRIVALS FROM VASTRA</h1>
-            <div className="product-list">
+            <div className="product-list-list">
                 
                 {products.map(product => (
-                    <Link to={`/product/${product.productId}`} key={product.productId} className="product-item">
-                        <div className="product-image">
+                    <Link to={`/product/${product.productId}`} key={product.productId} className="product-item-list">
+                        <div className="product-image-list">
                             <img src={`data:image/png;base64,${product.imageBase64}`} alt={product.name} />
                         </div>
-                        <div className="product-info">
-                            <h3 className="product-name">{product.name}</h3>
-                            <p className="product-description">{product.shortDescription}</p>
-                            <p className="product-price">
+                        <div className="product-info-list">
+                            <h3 className="product-name-list">{product.name}</h3>
+                            <p className="product-description-list">{product.shortDescription}</p>
+                            <p className="product-price-list">
                           ₹{product.productVariants?.[0]?.pricePerUnit || '0'}</p>
                         </div>
                     </Link>
