@@ -231,7 +231,6 @@ export default function OrderSummary({id}) {
           onChange={(e) => setPaymentMethod(e.target.value)}
         >
           <option value="">Select Payment Method</option>
-          
           <option value="Credit Card">Credit Card</option>
           <option value="COD">Cash on Delivery (COD)</option>
         </select>
