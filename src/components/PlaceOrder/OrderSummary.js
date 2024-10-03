@@ -299,7 +299,7 @@ export default function OrderSummary({id}) {
 ) : (
 <p>Select a Payment Method to complete the Order</p>
 )}
-   <ToastContainer />
+   <ToastContainer autoClose={500}/>
     </div>
   );
 }

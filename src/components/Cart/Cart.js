@@ -80,6 +80,7 @@ export default function Cart() {
     const [selectedItems, setSelectedItems] = useState([]);
 
     const handleQuantityChange = (productVariantId, newQuantity) => {
+        if (newQuantity < 0) return;
         updateCart(productVariantId, newQuantity);
     };
 
@@ -113,6 +114,36 @@ export default function Cart() {
             toast.error("No items selected for the order");
             return;
         }
+          // Check if any items have a quantity of 0
+    const outOfStockItems = cartItems.filter(item => {
+        return item.productVariants[0].quantity === 0; // Check if the quantity is zero
+    });
+ 
+    // Show toast for out-of-stock items only
+    if (outOfStockItems.length > 0) {
+        outOfStockItems.forEach(item => {
+toast.error(`Product "${item.name}" is out of stock!`, {
+                autoClose: 2000, // Set the duration for this toast
+            });
+        });
+        return; // Exit if any items are out of stock
+    }
+ 
+    // Check if any items have an insufficient available quantity
+    const insufficientItems = cartItems.filter(item => {
+        const availableQuantity = item.productVariants[0].quantity; // Get available quantity
+        return item.quantity > availableQuantity; // Check against available quantity
+    });
+ 
+    if (insufficientItems.length > 0) {
+        insufficientItems.forEach(item => {
+            const availableQuantity = item.productVariants[0].quantity; // Get available quantity
+toast.error(`Oh no! Only ${availableQuantity} quantities left for ${item.name}.`, {
+                autoClose: 2000, // Set the duration for this toast
+            });
+        });
+        return;
+    }
 
         try {
             const id = await placeOrder(selectedCartItems);
@@ -142,7 +173,7 @@ export default function Cart() {
                     Check Out
                 </button>
             )}
-            <ToastContainer />
+            <ToastContainer autoClose={1000}/>
         </div>
     );
 }

@@ -34,31 +34,53 @@ const ProductDetails = () => {
     }, [id]);
 
     const handleAddToCart = () => {
-        let cartContainer=JSON.parse(localStorage.getItem('cartContainer')) || [];
-        cartContainer.push(product);
-        localStorage.setItem('cartContainer',JSON.stringify(cartContainer));
-
-         addToCart(product);
-
-       toast.success("Product added to the Cart");
-    };
-
-    const handleBuyNow =async () => {
-        // const Id = await placeOrder([product]);
-        // navigate(`/order-summary/${Id}`, { state: { orderItems: [product] } });
-
         const token = localStorage.getItem('jwtToken');
-        
+       
         if (!token) {
             toast.warning("Please login to order");
             navigate('/login');
             return;
         }
-        const quantity = 1; // default quantity, you can adjust this as needed
-        const productWithVariants = { ...product, quantity };
-        const Id = await placeOrder([productWithVariants]);
-        navigate(`/order-summary/${Id}`, { state: { orderItems: [productWithVariants] } });
+        let cartContainer=JSON.parse(localStorage.getItem('cartContainer')) || [];
+        cartContainer.push(product);
+        localStorage.setItem('cartContainer',JSON.stringify(cartContainer));
+ 
+         addToCart(product);
+ 
+       toast.success("Product added to the Cart");
     };
+
+    // const handleBuyNow =async () => {
+    //      // const Id = await placeOrder([product]);
+    //  navigate(`/order-summary/${Id}`, { state: { orderItems: [product] } });
+
+    //     const token = localStorage.getItem('jwtToken');
+        
+    //     if (!token) {
+    //         toast.warning("Please login to order");
+    //         navigate('/login');
+    //         return;
+    //     }
+    //     const quantity = 1; // default quantity, you can adjust this as needed
+    //     const productWithVariants = { ...product, quantity };
+    //     const Id = await placeOrder([productWithVariants]);
+    //     navigate(`/order-summary/${Id}`, { state: { orderItems: [productWithVariants] } });
+    // };
+
+    const handleBuyNow =async () => {
+        // const Id = await placeOrder([product]);
+        // navigate(`/order-summary/${Id}`, { state: { orderItems: [product] } });
+        const selectedVariant = product.productVariants?.[0];
+ 
+        if (!selectedVariant || selectedVariant.quantity <= 0) {
+            toast.error("Product is out of stock"); // Show toast if out of stock
+            return; // Exit the function if the product is out of stock
+        }
+    
+        const Id = await placeOrder([product]);
+        navigate(`/order-summary/${Id}`, { state: { orderItems: [product] } });
+    };
+    
     const handleAddToWishlist = () => {
         let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
         if (!wishlist.find(item => item.productId === product.productId)) {
@@ -130,7 +152,7 @@ const ProductDetails = () => {
                                 <p><strong>Size:</strong> {variant.size}</p>
                                 <p><strong>Color:</strong> {variant.color}</p>
                                 <p><strong>Price Per Unit:</strong> ₹{variant.pricePerUnit || '0'}</p>
-                                {/* <p><strong>Quantity Available:</strong> {variant.quantity}</p> */}
+                                <p><strong>Quantity Available:</strong> {variant.quantity > 0 ? variant.quantity : "Out of Stock"}</p>
                             </li>
                         ))}
                     </ul>

@@ -47,4 +47,26 @@ box-shadow: 0px 0px 10px rgb(182, 181, 181) inset;
     background-color: #218838; 
     border-color: #1e7e34;
   }
-  
+  .dropdown-item {
+    padding: 10px 15px; /* Padding for dropdown items */
+    color: #000; /* Text color */
+    text-decoration: none; /* Remove underline */
+    display: block; /* Make items block-level for full width */
+    text-align: center;
+  }
+ 
+  .dropdown-item:hover {
+    background-color: rgb(175, 175, 175); /* Light grey background on hover */
+  }
+  .btn-logout {
+    width: 100%; /* Full width for button */
+    background-color:white; /* Bootstrap's danger color */
+    border: none; /* Remove border */
+    padding: 10px; /* Padding for button */
+    text-align: center; /* Center text */
+  }
+ 
+  .btn-logout:hover {
+    background-color: #c82333; /* Darker red on hover */
+    color:white;
+  }

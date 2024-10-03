@@ -1,122 +1,158 @@
 /* Main Container */
 .product-grid-container {
-    margin: 20px;
+    margin: 30px auto;
+    max-width: 1200px;
     text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
 }
  
 /* Add Product Button */
 .add-product-btn {
-    background-color: #4CAF50; /* Green */
+    background-color: #ff6f00;
     color: white;
     padding: 10px 20px;
     margin-bottom: 20px;
     border: none;
-    border-radius: 5px; /* Rounded corners */
+    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s;
 }
  
 .add-product-btn:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #e65c00;
 }
  
 /* Product Table */
 .product-table {
     width: 100%;
-    border-collapse: collapse; /* Remove space between table cells */
+    border-collapse: collapse;
+    background-color: #ffffff;
 }
  
 .product-table th,
 .product-table td {
-    padding: 12px;
-    border: 1px solid #ddd;
+    padding: 15px;
+    border: 1px solid #aaa; /* Lighter color for borders */
     text-align: left;
+    font-size: 14px;
 }
  
 .product-table th {
-    background-color: #f4f4f4; /* Light grey background for headers */
+    text-align: center;
+    background-color: #f0f0f0;
+    color: #333;
+    border-bottom: 2px solid #aaa; /* Lighter bottom border for header */
 }
  
-/* Product Card */
-.product-card {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    margin-bottom: 20px; /* Space between cards */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+.product-table td {
+    text-align: center;
+    vertical-align: middle;
 }
  
-/* Product Image */
 .product-image {
-    max-width: 100px; /* Restrict image size */
+    max-width: 80px;
     height: auto;
+    border-radius: 4px;
 }
  
 /* Action Buttons */
 .action-buttons {
-    margin-top: 10px;
+    display: flex;
+    gap: 10px;
 }
  
 .edit-btn,
 .delete-btn {
-    background-color: #008CBA; /* Blue */
-    color: white;
-    padding: 10px;
-    margin: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
     border: none;
-    border-radius: 5px; /* Rounded corners */
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+}
+ 
+.edit-btn {
+    background-color: #28a745;
+    color: white;
 }
  
 .delete-btn {
-    background-color: #f44336; /* Red */
+    background-color: #dc3545;
+    color: white;
 }
  
 .edit-btn:hover {
-    background-color: #005f7f; /* Darker blue on hover */
+    background-color: #218838;
 }
  
 .delete-btn:hover {
-    background-color: #c62828; /* Darker red on hover */
+    background-color: #c82333;
 }
  
 /* Add Product Form */
 .add-product-form {
     display: flex;
-    flex-direction: column;
-    margin: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
  
-.add-product-form input {
-    margin-bottom: 10px;
-    padding: 10px;
+.add-product-form input[type="text"],
+.add-product-form input[type="number"],
+.add-product-form input[type="file"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px; /* Rounded corners */
 }
  
-/* Submit and Cancel Buttons */
 .add-product-form button {
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 5px;
     border: none;
     cursor: pointer;
 }
  
 .add-product-form button[type="submit"] {
-    background-color: #4CAF50; /* Green */
+    background-color: #ff6f00;
     color: white;
 }
  
 .add-product-form button[type="button"] {
-    background-color: #f44336; /* Red */
+    background-color: #6c757d;
     color: white;
 }
  
-.add-product-form button[type="submit"]:hover,
-.add-product-form button[type="button"]:hover {
-    opacity: 0.9; /* Slight opacity change on hover */
+.add-product-form button:hover {
+    opacity: 0.9;
+}
+ 
+/* Responsive Design */
+@media (max-width: 768px) {
+    .product-grid-container {
+        padding: 10px;
+    }
+ 
+    .product-table th,
+    .product-table td {
+        padding: 10px;
+    }
+ 
+    .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+ 
+    .add-product-form input {
+        width: 100%;
+    }
 }

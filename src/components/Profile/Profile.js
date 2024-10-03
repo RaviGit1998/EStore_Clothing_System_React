@@ -619,7 +619,7 @@
 
 // export default ProfilePage;
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
  
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -627,7 +627,8 @@ import './Profile.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddressForm from './Adress';
- 
+import { CartContext } from '../Cart/CartContext';
+
 const ProfilePage = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [shippingAddresses, setShippingAddresses] = useState([]);
@@ -637,6 +638,7 @@ const ProfilePage = () => {
   const [productDetails, setProductDetails] = useState({});
   const [error, setError] = useState('');
   const [expandedMonth, setExpandedMonth] = useState(null);
+  const {setCartItems}=useContext(CartContext);
   const navigate = useNavigate();
  
   // Get email and JWT token from localStorage
@@ -925,12 +927,16 @@ const handleCancelOrder = async (orderId, shipping) => {
         onClick={() => {
           localStorage.removeItem('jwtToken');
           localStorage.removeItem('userId');
+          localStorage.removeItem('role');
+          localStorage.removeItem('cartContainer');
+          setCartItems([]);
           toast.success("Logged out successfully");
           navigate('/login');
         }}
       >
         Logout
       </button>
+ 
       {/* Switch Account Button */}
       <button
         className="btn btn-success"
@@ -976,6 +982,7 @@ const handleCancelOrder = async (orderId, shipping) => {
                                   <p><strong>Short Description:</strong> {product ? product.shortDescription : 'N/A'}</p>
                                   <p><strong>Quantity:</strong> {item.quantity}</p>
                                   <p><strong>Price:</strong> ₹{item.price}</p>
+                                  
                                 </div>
                               </div>
                             </li>
