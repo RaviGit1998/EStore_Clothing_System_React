@@ -661,6 +661,7 @@ const ProfilePage = () => {
       setUserDetails(response.data);
       localStorage.setItem("userId", response.data.userId);
       fetchUserShippingAddresses(response.data.userId);
+      localStorage.setItem("userName",response.data.firstName);
       fetchUserOrderDetails(response.data.userId);
     } catch (error) {
       setError('Failed to fetch user details.');
@@ -921,17 +922,29 @@ const handleCancelOrder = async (orderId, shipping) => {
           onCancel={handleCancelEdit}
         />
       )}
-     {/* Logout Button */}
-     <button
-        className="btn btn-danger"
+<button
+        className=" btn btn-danger"
         onClick={() => {
-          localStorage.removeItem('jwtToken');
-          localStorage.removeItem('userId');
-          localStorage.removeItem('role');
-          localStorage.removeItem('cartContainer');
-          setCartItems([]);
-          toast.success("Logged out successfully");
-          navigate('/login');
+          const isLoggedOut = !localStorage.getItem('jwtToken'); // Check if the user is already logged out
+ 
+          if (isLoggedOut) {
+            alert('you have already loggedout')
+            return;
+          }
+     
+          // Confirm logout
+          const confirmLogout = window.confirm("Are you sure you want to log out?");
+          if (confirmLogout) {
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('role');
+            localStorage.removeItem('cartContainer');
+            localStorage.removeItem('wishlist');
+            localStorage.removeItem('userName');
+            setCartItems([]);
+          alert('you have logged out succesfully');
+            navigate('/login');
+          }
         }}
       >
         Logout
@@ -1018,9 +1031,8 @@ const handleCancelOrder = async (orderId, shipping) => {
         ))
       )}
     </div>
- 
- 
-      <ToastContainer />
+
+      <ToastContainer autoClose={1000}/>
     </div>
   );
 };

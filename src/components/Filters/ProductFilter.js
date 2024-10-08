@@ -1,5 +1,7 @@
 
+ 
 // import React, { useState, useEffect } from 'react';
+
 // import axios from 'axios';
 // import './ProductFilter.css';
  
@@ -20,12 +22,10 @@
 //     };
 //   };
  
- 
 //   const handlePriceChange = (e) => {
 //     const { name, value } = e.target;
 //     setPriceRange({ ...priceRange, [name]: value });
 //   };
- 
  
 //   const handleSizeChange = (e) => {
 //     const { value, checked } = e.target;
@@ -75,14 +75,14 @@
 //     setSelectedSize([]);
 //     setSelectedColor([]);
 //     setSortOrder('price_asc');
-//     onFilterChange([]);
+//     onFilterChange(null);  
 //   };
+ 
  
 //   return (
 //     <div className="product-filter-page1">
 //       <aside className="filter-section-container1">
 //         <h3>Filter Products</h3>
- 
 //         <div className="filter-section1">
 //           <h4>Price Range</h4>
 //           <input
@@ -100,7 +100,6 @@
 //             onChange={handlePriceChange}
 //           />
 //         </div>
- 
 //         <div className="filter-section1">
 //           <h4>Size</h4>
 //           {['S', 'M', 'L', 'XL'].map((size) => (
@@ -115,7 +114,6 @@
 //             </label>
 //           ))}
 //         </div>
- 
 //         <div className="filter-section1">
 //           <h4>Color</h4>
 //           {['Red', 'Blue', 'White', 'Black', 'Yellow', 'Green', 'Maroon', 'Pink', 'Orange', 'Grey', 'Sky Blue'].map((color) => (
@@ -130,15 +128,13 @@
 //             </label>
 //           ))}
 //         </div>
- 
 //         <div className="filter-section1">
 //           <h4>Sort By</h4>
 //           <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
 //             <option value="price_asc">Price (Low to High)</option>
 //             <option value="price_desc">Price (High to Low)</option>
 //           </select>
-//         </div>
- 
+//         </div>  
 //         <button className="reset-button" onClick={resetFilters}>
 //           Reset Filters
 //         </button>
@@ -146,14 +142,14 @@
 //     </div>
 //   );
 // };
- 
 // export default ProductFilter;
+
+
  
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ProductFilter.css';
- 
-const ProductFilter = ({ id, onFilterChange }) => {
+const ProductFilter = ({ id, onFilterChange ,onPriceRangeChange}) => {
  // const [products, setProducts] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [selectedSize, setSelectedSize] = useState([]);
@@ -173,6 +169,7 @@ const ProductFilter = ({ id, onFilterChange }) => {
   const handlePriceChange = (e) => {
     const { name, value } = e.target;
     setPriceRange({ ...priceRange, [name]: value });
+    onPriceRangeChange({ ...priceRange, [name]: value });
   };
  
   const handleSizeChange = (e) => {
@@ -286,6 +283,7 @@ const ProductFilter = ({ id, onFilterChange }) => {
         <button className="reset-button" onClick={resetFilters}>
           Reset Filters
         </button>
+     
       </aside>
     </div>
   );

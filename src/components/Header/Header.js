@@ -142,13 +142,14 @@ function Header() {
  
   const handleProfileMouseEnter = () => setDropdownVisible(true);
   const handleProfileMouseLeave = () => setDropdownVisible(false);
- 
+  const userName = localStorage.getItem('userName');
+  const displayName = userName ? userName.substring(0, 7) : '';
   return (
     <nav className="navbar navbar-expand-lg custom-navbar box-nav">
       <div className="container-fluid">
         <div className="d-flex align-items-center">
           <NavLink className="navbar-brand" to="/">
-            <img src="vastra.jpg" className="img-fluid custom-logo" alt="Logo" />
+            <img src={`${process.env.PUBLIC_URL}/vastra.jpg`} className="img-fluid custom-logo" alt="Logo" />
           </NavLink>
           <button
             className="navbar-toggler"
@@ -177,7 +178,11 @@ function Header() {
               <span className="icon-style">
                 <i className="fa-solid fa-user"></i>
               </span>
-              <NavLink to="/profile" className="nav-link">Profile</NavLink>
+              {userName ? (
+                <NavLink to="/profile" className="nav-link">{displayName}</NavLink>
+              ) : (
+                <NavLink to="/profile" className="nav-link">Profile</NavLink>
+              )}
               {dropdownVisible && (
                 <div className="dropdown-menu show">
                   <NavLink className="dropdown-item" to="/login">Login</NavLink>
@@ -185,13 +190,26 @@ function Header() {
                   <button
         className=" btn-logout dropdown-item"
         onClick={() => {
-          localStorage.removeItem('jwtToken');
-          localStorage.removeItem('userId');
-          localStorage.removeItem('role');
-          localStorage.removeItem('cartContainer');
-          setCartItems([]);
-        
-          navigate('/login');
+          const isLoggedOut = !localStorage.getItem('jwtToken'); // Check if the user is already logged out
+ 
+          if (isLoggedOut) {
+            alert('you have already loggedout')
+            return;
+          }
+     
+          // Confirm logout
+          const confirmLogout = window.confirm("Are you sure you want to log out?");
+          if (confirmLogout) {
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('role');
+            localStorage.removeItem('cartContainer');
+            localStorage.removeItem('wishlist');
+            localStorage.removeItem('userName');
+            setCartItems([]);
+          alert('you have logged out succesfully');
+            navigate('/login');
+          }
         }}
       >
         Logout
@@ -201,7 +219,7 @@ function Header() {
             </li>
             <li className="nav-item">
               <span className="icon-style">
-                <i className="fa-solid fa-cart-shopping">{cartCount}</i>
+                <i className="fa-solid fa-cart-shopping">{cartCount > 0 ? cartCount : ''}</i>
               </span>
               <NavLink to="/cart" className="nav-link">Cart</NavLink>
             </li>

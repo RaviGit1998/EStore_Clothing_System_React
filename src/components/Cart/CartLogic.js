@@ -12,6 +12,7 @@ export function useCart() {
     useEffect(()=>{
         localStorage.setItem('cartContainer',JSON.stringify(cartItems));
     },[cartItems])
+    
     const [cartCount, setCartCount] = useState(0);
  
     const addToCart = (product) => {

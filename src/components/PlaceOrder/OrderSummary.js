@@ -17,7 +17,7 @@ export default function OrderSummary({id}) {
   const { setShippingDetails,selectedAddress, setSelectedAddress } = useContext(CartContext);
   const [paymentMethod, setPaymentMethod] = useState(''); // New state for payment method
   const [cardDetails, setCardDetails] = useState({name:'', number: '', expiry: '', cvv: '' }); // State for card details
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [isCouponApplied, setIsCouponApplied] = useState(false);
   //const [selectedAddress, setSelectedAddress] = useState(null);
   const token = localStorage.getItem('jwtToken');
   // Extract order ID from URL params if needed
@@ -40,10 +40,25 @@ export default function OrderSummary({id}) {
  
  
   async function handleApplyCoupon() {
+    if (!couponCode) {
+      toast.error('Please select a coupon code to apply');
+      return;
+    }
+    setIsCouponApplied(true); // Set to true when the button is clicked
+    if (totalAmount <= 999) {
+      // Display the error message
+      setIsCouponApplied(true);
+    }
     try {
       const response = await axios.get(`https://localhost:7181/api/Order/${id}/total-amount?couponCode=${couponCode}`);
- 
-      setDiscountedTotal(response.data);
+      const newTotalAmount = response.data;
+     
+    // Check if total amount exceeds the minimum required amount (999)
+    if (newTotalAmount > 999) {
+      setDiscountedTotal({totalAmount:newTotalAmount});  // Apply the discount if valid
+    } else {
+      setDiscountedTotal(null);  // Reset the discount if not valid
+    }
     } catch (error) {
       console.error('Error applying coupon:', error);
     }
@@ -117,7 +132,7 @@ export default function OrderSummary({id}) {
     return;
   }
  
-  if (paymentMethod === 'Credit Card') {
+  if (paymentMethod === 'Credit Card/Debit Card') {
     if (!cardDetails.number || !cardDetails.expiry || !cardDetails.cvv) {
       toast.error('Please enter your credit card details before placing an order.');
       e.preventDefault();
@@ -168,6 +183,13 @@ export default function OrderSummary({id}) {
       console.error('Error sending order details to email:', error);
     }
   };
+  //for credit card feild 
+  const handleCardNumberChange = (e) => {
+    let inputValue = e.target.value.replace(/\D/g, ''); // Remove non-digit characters
+    // Format the number with dashes after every 4 digits
+    let formattedValue = inputValue.replace(/(\d{4})(?=\d)/g, '$1-');
+    setCardDetails({ ...cardDetails, number: formattedValue });
+  };
   return (
     <div className="container mt-4">
       <h2>Order Summary</h2>
@@ -191,7 +213,7 @@ export default function OrderSummary({id}) {
         ))}
  
       </ul>
-      <h4 className="mt-4">Total: ${totalAmount}</h4>
+      <h5 className="mt-4">Total: ${totalAmount}</h5>
       <div className="mt-4">
       <select
   value={couponCode}
@@ -202,15 +224,28 @@ export default function OrderSummary({id}) {
   <option value="DHAMAKA">DHAMAKA</option>
   <option value="MEGASALE">MEGASALE</option>
 </select>
+
+{isCouponApplied && totalAmount <= 999 && (
+  <p style={{ color: 'red', marginTop: '10px' }}>
+    Coupon code can only be applied for orders above $999.
+  </p>
+)}
+
         <button className="btn btn-secondary mt-2" onClick={handleApplyCoupon}>
           Apply Coupon
         </button>
       </div>
  
-      {discountedTotal !== null && (
-        <h4 className="mt-4">Total Amount To Be Paid: ${discountedTotal}</h4>
-      )}
-
+{/* Show discounted total if the coupon is valid and applied */}
+{isCouponApplied && discountedTotal !== null && (
+  <>
+    {totalAmount !== discountedTotal.totalAmount && (
+      <h5 className="mt-2 text-success">
+        Total Amount to be Paid after Discount applied: ${discountedTotal.totalAmount}
+      </h5>
+    )}
+  </>
+)}
 <h5>Shipping Address</h5>
 <ul className="list-group">
   {selectedAddress.map((address) => (
@@ -231,13 +266,13 @@ export default function OrderSummary({id}) {
           onChange={(e) => setPaymentMethod(e.target.value)}
         >
           <option value="">Select Payment Method</option>
-          <option value="Credit Card">Credit Card</option>
+          <option value="Credit Card/Debit Card">Credit Card/Debit Card</option>
           <option value="COD">Cash on Delivery (COD)</option>
         </select>
       </div>
      
    
-{paymentMethod === 'Credit Card' && (
+{paymentMethod === 'Credit Card/Debit Card' && (
         <div className="mt-4">
           <h4>Credit Card Details:</h4>
           <form>
@@ -257,7 +292,8 @@ export default function OrderSummary({id}) {
                 type="text"
                 className="form-control"
                 value={cardDetails.number}
-                onChange={(e) => setCardDetails({ ...cardDetails, number: e.target.value })}
+                onChange={(e) => handleCardNumberChange(e)}
+                maxLength={19} // Maximum length considering dashes (16 digits + 3 dashes)
                 required
               />
             </div>
@@ -275,7 +311,8 @@ export default function OrderSummary({id}) {
             <div className="form-group">
               <label>CVV</label>
               <input
-                type="text"
+                type="number"
+                maxLength={3}
                 className="form-control"
                 value={cardDetails.cvv}
                 onChange={(e) => setCardDetails({ ...cardDetails, cvv: e.target.value })}
@@ -292,7 +329,7 @@ export default function OrderSummary({id}) {
       Place Order
     </button>
   </Link>
-) : paymentMethod === 'Credit Card' ? (
+) : paymentMethod === 'Credit Card/Debit Card' ? (
 <Link to="/Success" state={{ orderItems, totalAmount, discountedTotal }}>  <button className="btn btn-primary mt-4" onClick={(e) => handleProceedPayment(e)}>
     Proceed to Payment
   </button></Link>

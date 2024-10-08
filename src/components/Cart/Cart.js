@@ -173,7 +173,7 @@ toast.error(`Oh no! Only ${availableQuantity} quantities left for ${item.name}.`
                     Check Out
                 </button>
             )}
-            <ToastContainer autoClose={1000}/>
+            <ToastContainer autoClose={500}/>
         </div>
     );
 }

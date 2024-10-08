@@ -186,7 +186,7 @@ const LoginPage = () => {
           navigate('/Admin'); // Admin Dashboard route
           window.location.reload();
         } else {
-          navigate('/'); // User Dashboard route
+          navigate('/profile'); // User Dashboard route
         }
       }
     } catch (err) {
