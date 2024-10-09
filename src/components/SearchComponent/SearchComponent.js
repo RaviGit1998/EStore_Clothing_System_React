@@ -62,5 +62,4 @@ const SearchComponent = ({ keyword: initialKeyword }) => {
         </div>
     );
 };
- 
 export default SearchComponent;
