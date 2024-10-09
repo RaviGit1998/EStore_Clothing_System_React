@@ -4,6 +4,7 @@ import './SignupPage.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { showSuccessToast, showWarningToast } from '../Toasting/ThrottledToast';
 const SignupPage = () => {
   const navigate= useNavigate();
   const [formData, setFormData] = useState({
@@ -88,6 +89,7 @@ const SignupPage = () => {
 
       if (response.status === 201) {      
         setMessage('User registered successfully!');
+        showSuccessToast('registered successfully');
         setFormData({
           firstName: '',
           lastName: '',
@@ -97,13 +99,13 @@ const SignupPage = () => {
         }); // Clear form fields
     
       }
-      toast.success('registered successfully');
+      showSuccessToast('registered successfully');
       navigate('/login');
     } catch (err) {
       // Handle errors from API
       if (err.response) {
         setErrors(err.response.data.message || 'An error occurred');
-        toast.warning("something went wrong Please try later");
+        showWarningToast("something went wrong Please try later");
       } else {
         setErrors('An error occurred');
       }
@@ -185,7 +187,7 @@ const SignupPage = () => {
        </form> 
       <NavLink to='/login'><h6 className="btn2">Existing User? Login</h6></NavLink>
     </div>
-    <ToastContainer/>
+   
     </div>
   );
 };

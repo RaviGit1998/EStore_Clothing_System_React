@@ -41,11 +41,11 @@ const SearchComponent = ({ keyword: initialKeyword }) => {
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
  
-            <div className="product-list">
+            <div className="product-list-list">
                 {products.length > 0 ? (
                     products.map(product => (
-                        <Link to={`/product/${product.productId}`} key={product.productId} className="product-item">
-                            <div className="product-image">
+                        <Link to={`/product/${product.productId}`} key={product.productId} className="product-item-list">
+                            <div className="product-image-list">
                                 <img src={`data:image/png;base64,${product.imageBase64}`} alt={product.name} />
                             </div>
                             <div className="product-info">

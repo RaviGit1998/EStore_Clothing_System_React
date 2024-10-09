@@ -112,7 +112,7 @@
 import { useLocation, Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { CartContext } from '../Cart/CartContext';
- 
+
 function SuccessPage() {
  const location = useLocation();
  const { state } = location;
@@ -120,11 +120,11 @@ function SuccessPage() {
  
  const { shippingDetails }=useContext(CartContext);
  
- 
  if (!state) {
    return <div>No order details available.</div>;
  }
  const { orderItems, totalAmount, discountedTotal } = state;
+ 
  
  console.log('Shipping details in the  SuccessPage:', shippingDetails);
 //console.log('traackign number' ,shippingDetails.trackingNumber)

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './ProductGrid.css';  
+import { showErrorToast, showInfoToast, showSuccessToast } from '../Toasting/ThrottledToast';
  
 const ProductGrid = () => {
     const [products, setProducts] = useState([]);
@@ -21,7 +22,7 @@ const ProductGrid = () => {
             .catch(error => {
                 console.log(error);
                 setLoading(false); // Stop loading on error
-                toast.error('Failed to load products');
+                showErrorToast('Failed to load products');
             });
     }, []);
  
@@ -32,14 +33,14 @@ const ProductGrid = () => {
             axios.delete(`https://localhost:7181/api/Product/${productId}`)
                 .then(() => {
                     setProducts(products.filter(product => product.productId !== productId));
-                    toast.success('Product deleted successfully');
+                    showSuccessToast('Product deleted successfully');
                 })
                 .catch(error => {
                     console.log(error);
-                    toast.error('Failed to delete product');
+                   showErrorToast('Failed to delete product');
                 });
         } else {
-            toast.info('Product deletion canceled');
+           showInfoToast('Product deletion canceled');
         }
     };
  
@@ -74,7 +75,7 @@ const ProductGrid = () => {
                         />
                     )}
  
-                    <ToastContainer />
+                   
  
                     <table className="product-table">
                         <thead>

@@ -1031,8 +1031,6 @@ const handleCancelOrder = async (orderId, shipping) => {
         ))
       )}
     </div>
-
-      <ToastContainer autoClose={1000}/>
     </div>
   );
 };

@@ -20,6 +20,7 @@ import ShareViaEmail from './components/Profile/ShareViaEmail';
 import ProductGrid from './components/Admin/ProductGrid';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
  
 function App() {
   const [userRole, setUserRole] = useState('');
@@ -105,8 +106,10 @@ function App() {
     <>
     <CartProvider>
     <RouterProvider router={router}></RouterProvider>
+    <div>
+      <ToastContainer autoClose={1000}/>
+    </div>
     </CartProvider>
- 
     </>
   );
 }

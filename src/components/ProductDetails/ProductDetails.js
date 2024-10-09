@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams,useOutletContext } from 'react-router-dom';
 import './ProductDetails.css';
 import { CartContext } from '../Cart/CartContext';
-import { ToastContainer,toast } from 'react-toastify';
+import { showErrorToast, showInfoToast, showSuccessToast, showWarningToast } from '../Toasting/ThrottledToast';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import placeOrder from '../PlaceOrder/PlaceOrder';
@@ -14,7 +14,7 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const [isInWishlist, setIsInWishlist] = useState(false);    
     useEffect(() => {
         fetch(`https://localhost:7181/api/Product/${id}`)
             .then(response => {
@@ -37,7 +37,7 @@ const ProductDetails = () => {
         const token = localStorage.getItem('jwtToken');
        
         if (!token) {
-            toast.warning("Please login to order");
+           showWarningToast("Please login to order");
             navigate('/login');
             return;
         }
@@ -45,34 +45,27 @@ const ProductDetails = () => {
 
         // Check if the selected variant is available
         if (!selectedVariant || selectedVariant.quantity <= 0) {
-            toast.error("Product is out of stock"); // Show toast if out of stock
+            showErrorToast("Product is out of stock"); // Show toast if out of stock
             return; // Exit the function if the product is out of stock
         }
-        let cartContainer=JSON.parse(localStorage.getItem('cartContainer')) || [];
+
+  let cartContainer = JSON.parse(localStorage.getItem('cartContainer')) || [];
+    const existingProduct = cartContainer.find(item => item.productId === product.productId);
+    if (existingProduct) {
+        // If the product is already in the cart, show a notification
+        showInfoToast("Product is already in the cart");
+    } else {
+        // If not in the cart, add the product
         cartContainer.push(product);
-        localStorage.setItem('cartContainer',JSON.stringify(cartContainer));
- 
-         addToCart(product);
- 
-       toast.success("Product added to the Cart");
+        localStorage.setItem('cartContainer', JSON.stringify(cartContainer));
+
+        // Add to cart context (if you're using context for cart management)
+        addToCart(product);
+
+        // Show success notification
+        showSuccessToast("Product added to the Cart");
+      }
     };
-
-    // const handleBuyNow =async () => {
-    //      // const Id = await placeOrder([product]);
-    //  navigate(`/order-summary/${Id}`, { state: { orderItems: [product] } });
-
-    //     const token = localStorage.getItem('jwtToken');
-        
-    //     if (!token) {
-    //         toast.warning("Please login to order");
-    //         navigate('/login');
-    //         return;
-    //     }
-    //     const quantity = 1; // default quantity, you can adjust this as needed
-    //     const productWithVariants = { ...product, quantity };
-    //     const Id = await placeOrder([productWithVariants]);
-    //     navigate(`/order-summary/${Id}`, { state: { orderItems: [productWithVariants] } });
-    // };
 
     const handleBuyNow =async () => {
         // const Id = await placeOrder([product]);
@@ -80,14 +73,14 @@ const ProductDetails = () => {
         const token = localStorage.getItem('jwtToken');
        
         if (!token) {
-            toast.warning("Please login to order");
+            showWarningToast("Please login to order");
             navigate('/login');
             return;
         }
         const selectedVariant = product.productVariants?.[0];
  
         if (!selectedVariant || selectedVariant.quantity <= 0) {
-            toast.error("Product is out of stock"); // Show toast if out of stock
+            showErrorToast("Product is out of stock"); // Show toast if out of stock
             return; // Exit the function if the product is out of stock
         }
            const quantity = 1; // default quantity, you can adjust this as needed
@@ -97,16 +90,16 @@ const ProductDetails = () => {
     };
     
     const handleAddToWishlist = () => {
+        setIsInWishlist(!isInWishlist);
         let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
         if (!wishlist.find(item => item.productId === product.productId)) {
             wishlist.push(product);
             localStorage.setItem('wishlist', JSON.stringify(wishlist));
-          toast.success("item added to wishlist")
+         showSuccessToast("item added to wishlist")
         } else {
-           toast.warn("item is already in wishlist");
+           showWarningToast("item is already in wishlist");
         }
     };
-
     if (loading) return <p className="loading">Loading...</p>;
     if (error) return <p className="error">Error: {error.message}</p>;
     if (!product) return <p className="not-found">Product not found.</p>;
@@ -131,8 +124,13 @@ const ProductDetails = () => {
                     )}
                 </div>
                 <div className="product-actions">
-                   <span className="icon-style2" onClick={handleAddToWishlist}>
-                        <i className="fa fa-heart "></i>
+                <span className="icon-style2" onClick={handleAddToWishlist}>
+                   {isInWishlist ? (
+                    <i className="fa-solid fa-heart"></i>
+                ) : (
+                    <i className="fa-regular fa-heart"></i>
+                )}
+                 
                     </span>
                     <button className="btn7 btn btn-add-to-cart" onClick={handleAddToCart}>
                         Add to Cart
@@ -178,7 +176,7 @@ const ProductDetails = () => {
                 <p className="product-created-date"><strong>Created on:</strong> {new Date(product.createdDate).toLocaleDateString()}</p>
                 <p className="product-modified-date"><strong>Last Modified on:</strong> {new Date(product.modifiedDate).toLocaleDateString()}</p>
             </div>
-            <ToastContainer autoClose={500}/> 
+           
         </div>
     );
 };

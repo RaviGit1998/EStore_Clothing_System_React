@@ -121,8 +121,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './loginPage.css';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { showSuccessToast, showWarningToast } from '../Toasting/ThrottledToast';
  
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -170,12 +170,12 @@ const LoginPage = () => {
         },
       });
  
-      toast.success("Logged in successfully");
+     
  
       if (response.status === 200) {
         const { token, role } = response.data; // Expecting role to be part of the response
         setMessage('Login successful!');
- 
+        showSuccessToast("Logged in successfully");
         // Store the JWT token in localStorage
         localStorage.setItem('jwtToken', token);
         localStorage.setItem('email', formData.email);
@@ -192,7 +192,7 @@ const LoginPage = () => {
     } catch (err) {
       if (err.response) {
         setErrors({ message: err.response.data.message || 'Invalid email or password' });
-        toast.warning("Please enter correct email or password");
+       showWarningToast("Please enter correct email or password");
       } else {
         setErrors({ message: 'An error occurred' });
       }
@@ -234,7 +234,7 @@ const LoginPage = () => {
         <NavLink to='/signup'><h6 className="btn2">New to Online Shop? Register</h6></NavLink>
         <NavLink to='/passwordRecovery'><p className="btn2">Forgot Password</p></NavLink>
       </form>
-      <ToastContainer />
+     
     </div>
   );
 };

@@ -71,6 +71,7 @@ import { CartContext } from './CartContext';
 import placeOrder from '../PlaceOrder/PlaceOrder';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { showErrorToast, showWarningToast } from '../Toasting/ThrottledToast';
 
 export default function Cart() {
     const { cartItems, updateCart } = useContext(CartContext);
@@ -100,7 +101,7 @@ export default function Cart() {
         const token = localStorage.getItem('jwtToken');
         
         if (!token) {
-            toast.warning("Please login to order");
+           showWarningToast("Please login to order");
             navigate('/login');
             return;
         }
@@ -111,7 +112,7 @@ export default function Cart() {
         );
 
         if (!selectedCartItems || selectedCartItems.length === 0) {
-            toast.error("No items selected for the order");
+            showErrorToast("No items selected for the order");
             return;
         }
           // Check if any items have a quantity of 0
@@ -122,7 +123,7 @@ export default function Cart() {
     // Show toast for out-of-stock items only
     if (outOfStockItems.length > 0) {
         outOfStockItems.forEach(item => {
-toast.error(`Product "${item.name}" is out of stock!`, {
+       showErrorToast(`Product "${item.name}" is out of stock!`, {
                 autoClose: 2000, // Set the duration for this toast
             });
         });
@@ -138,7 +139,7 @@ toast.error(`Product "${item.name}" is out of stock!`, {
     if (insufficientItems.length > 0) {
         insufficientItems.forEach(item => {
             const availableQuantity = item.productVariants[0].quantity; // Get available quantity
-toast.error(`Oh no! Only ${availableQuantity} quantities left for ${item.name}.`, {
+        toast.error(`Oh no! Only ${availableQuantity} quantities left for ${item.name}.`, {
                 autoClose: 2000, // Set the duration for this toast
             });
         });
@@ -154,7 +155,7 @@ toast.error(`Oh no! Only ${availableQuantity} quantities left for ${item.name}.`
     };
 
     return (
-        <div className="container mt-1" style={{ width: "700px" }}>
+        <div className="container mt-1" style={{ width: "600px" }}>
             <h2>Cart</h2>
             <ul className="list-group">
                 {cartItems.map((item) => (
@@ -173,7 +174,7 @@ toast.error(`Oh no! Only ${availableQuantity} quantities left for ${item.name}.`
                     Check Out
                 </button>
             )}
-            <ToastContainer autoClose={500}/>
+           
         </div>
     );
 }

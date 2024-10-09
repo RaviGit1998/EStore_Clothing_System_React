@@ -5,6 +5,7 @@ import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer,toast } from 'react-toastify';
 import { CartContext } from '../Cart/CartContext';
+import { showErrorToast, showSuccessToast } from '../Toasting/ThrottledToast';
  
 export default function OrderSummary({id}) {
   const location = useLocation();
@@ -18,6 +19,7 @@ export default function OrderSummary({id}) {
   const [paymentMethod, setPaymentMethod] = useState(''); // New state for payment method
   const [cardDetails, setCardDetails] = useState({name:'', number: '', expiry: '', cvv: '' }); // State for card details
   const [isCouponApplied, setIsCouponApplied] = useState(false);
+  const [couponState, setCouponState] = useState({ isApplied: false, total: null });
   //const [selectedAddress, setSelectedAddress] = useState(null);
   const token = localStorage.getItem('jwtToken');
   // Extract order ID from URL params if needed
@@ -37,47 +39,38 @@ export default function OrderSummary({id}) {
     fetchOrderDetails();
   }, [id]);
  
- 
+  useEffect(() => {
+    if (!couponCode) {
+      setCouponState({ isApplied: false, total: null }); // Reset coupon state if coupon code is cleared
+    }
+  }, [couponCode]);
  
   async function handleApplyCoupon() {
     if (!couponCode) {
-      toast.error('Please select a coupon code to apply');
+     showErrorToast('Please select a coupon code to apply');
       return;
     }
-    setIsCouponApplied(true); // Set to true when the button is clicked
-    if (totalAmount <= 999) {
-      // Display the error message
-      setIsCouponApplied(true);
-    }
+    // if (couponCode) {
+    //   setIsCouponApplied(true);
+    // }
+    //setIsCouponApplied(true); // Set to true when the button is clicked
+    
     try {
       const response = await axios.get(`https://localhost:7181/api/Order/${id}/total-amount?couponCode=${couponCode}`);
       const newTotalAmount = response.data;
      
     // Check if total amount exceeds the minimum required amount (999)
     if (newTotalAmount > 999) {
-      setDiscountedTotal({totalAmount:newTotalAmount});  // Apply the discount if valid
+      setCouponState({ isApplied: true, total: newTotalAmount }); // Set new total amount if valid
     } else {
-      setDiscountedTotal(null);  // Reset the discount if not valid
+      setCouponState({ isApplied: false, total: null }); // Reset if not valid
+     showErrorToast('Coupon code can only be applied for orders above $999.');
     }
     } catch (error) {
       console.error('Error applying coupon:', error);
     }
   }
- 
-  // const fetchUserShippingAddresses = async (userId) => {
-  //    userId=localStorage.getItem('userId');
-  //    userId=localStorage.getItem('userId');
-  //   try {
-  //     const response = await axios.get(`https://localhost:7181/api/ShippingAddress/user/${userId}`, {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     });
-  //     setSelectedAddress(response.data);
-  //   } catch (error) {
-  //     console.log('Failed to fetch shipping addresses.');
-  //   }
-  //   fetchUserShippingAddresses();
-  // };
-   
+
   useEffect(()=>{
   const generateShippingDetails = async () => {
     try {
@@ -121,20 +114,20 @@ export default function OrderSummary({id}) {
 
     if (selectedAddress.length === 0) {
       e.preventDefault();
-      toast.error("Please add the Address to Complete Order.");
+      showErrorToast("Please add the Address to Complete Order.");
       return;
     }
      // Implement your payment processing logic here
    
   if (!paymentMethod) {
     e.preventDefault();
-    toast.error('Please select a payment method before placing an order.');
+   showErrorToast('Please select a payment method before placing an order.');
     return;
   }
  
   if (paymentMethod === 'Credit Card/Debit Card') {
     if (!cardDetails.number || !cardDetails.expiry || !cardDetails.cvv) {
-      toast.error('Please enter your credit card details before placing an order.');
+      showErrorToast('Please enter your credit card details before proceeding to payment.');
       e.preventDefault();
       return;
     }
@@ -143,13 +136,16 @@ export default function OrderSummary({id}) {
       const response = await axios.post(`https://localhost:7181/api/Order/Confirmation/${id}`, { totalAmount: discountedTotal });
       const orderItems = response.data.orderItems;
       // Navigate to Success Page with order details
-    //  const shippingDetails=await generateShippingDetails();      
+      //const shippingDetails=await generateShippingDetails();      
        console.log('retriving order items',orderItems);
       // console.log('Shipping details:', shippingDetails);
      //  setShippingDetails(shippingDetails);
-      location.state = { orderItems, totalAmount, discountedTotal };
+      const finalTotal = couponState.isApplied ? couponState.total : totalAmount; 
+      location.state = { orderItems, finalTotal, totalAmount };
+      showSuccessToast("Order Placed Successfully!!")
       const email = localStorage.getItem('email');
-      await sendOrderDetailsToEmail(id, discountedTotal || totalAmount, response.data.orderDate, email);
+     
+      await sendOrderDetailsToEmail(id, finalTotal || totalAmount, response.data.orderDate, email);
 
       localStorage.removeItem("cartContainer");
       setCartItems([]);
@@ -225,27 +221,22 @@ export default function OrderSummary({id}) {
   <option value="MEGASALE">MEGASALE</option>
 </select>
 
-{isCouponApplied && totalAmount <= 999 && (
+{isCouponApplied && totalAmount <= 999 &&  couponCode !== '' && (
   <p style={{ color: 'red', marginTop: '10px' }}>
     Coupon code can only be applied for orders above $999.
   </p>
 )}
-
         <button className="btn btn-secondary mt-2" onClick={handleApplyCoupon}>
           Apply Coupon
         </button>
       </div>
- 
-{/* Show discounted total if the coupon is valid and applied */}
-{isCouponApplied && discountedTotal !== null && (
-  <>
-    {totalAmount !== discountedTotal.totalAmount && (
-      <h5 className="mt-2 text-success">
-        Total Amount to be Paid after Discount applied: ${discountedTotal.totalAmount}
-      </h5>
-    )}
-  </>
-)}
+
+ {/* Show discounted total if the coupon is valid and applied */}
+ {couponState.isApplied && couponState.total !== null && (
+        <h5 className="mt-2 text-success">
+          Total Amount to be Paid after Discount applied: ${couponState.total}
+        </h5>
+      )}
 <h5>Shipping Address</h5>
 <ul className="list-group">
   {selectedAddress.map((address) => (
@@ -324,19 +315,19 @@ export default function OrderSummary({id}) {
       )}
 
 {paymentMethod === 'COD' ? (
-  <Link to="/Success" state={{ orderItems, totalAmount, discountedTotal }}>
+  <Link to="/Success" state={{ orderItems, totalAmount, discountedTotal: couponState.isApplied ? couponState.total : totalAmount }}>
     <button className="btn btn-primary mt-4" onClick={(e) => handleProceedPayment(e)}>
       Place Order
     </button>
   </Link>
 ) : paymentMethod === 'Credit Card/Debit Card' ? (
-<Link to="/Success" state={{ orderItems, totalAmount, discountedTotal }}>  <button className="btn btn-primary mt-4" onClick={(e) => handleProceedPayment(e)}>
+<Link to="/Success" state={{ orderItems, totalAmount, discountedTotal: couponState.isApplied ? couponState.total : totalAmount }}>  <button className="btn btn-primary mt-4" onClick={(e) => handleProceedPayment(e)}>
     Proceed to Payment
   </button></Link>
 ) : (
 <p>Select a Payment Method to complete the Order</p>
 )}
-   <ToastContainer autoClose={500}/>
+  
     </div>
   );
 }

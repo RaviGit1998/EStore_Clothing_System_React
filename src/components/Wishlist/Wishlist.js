@@ -49,7 +49,7 @@ const Wishlist = () => {
           </li>
         ))}
       </ul>
-      <ToastContainer/>
+      
     </div>
   );
 };
