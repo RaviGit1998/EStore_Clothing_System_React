@@ -258,8 +258,7 @@ const ProductFilter = ({ id, onFilterChange, onPriceRangeChange }) => {
                     checked={selectedSize.includes(size)}
                     onChange={handleSizeChange} 
                     style={{verticalAlign: 'middle',marginBottom:20}}                  
-                  />
-                
+                  />              
                 </label>
               ))}
             </div>

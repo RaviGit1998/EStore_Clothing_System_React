@@ -567,8 +567,6 @@
 
 
 
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -780,6 +778,7 @@ const ProductGrid = () => {
         </div>
     );
 };
+
 const AddProductForm = ({ setShowAddForm, setProducts, editProduct }) => {
     const [productData, setProductData] = useState({
         name: '',
@@ -802,24 +801,35 @@ const AddProductForm = ({ setShowAddForm, setProducts, editProduct }) => {
     const [selectedImage, setSelectedImage] = useState(null); 
    
    
+   
     useEffect(() => {
         if (editProduct) {
             setProductData({
                 ...editProduct,
                 pricePerUnit: editProduct.productVariants?.[0]?.pricePerUnit || '',
             });
-           
+            if (editProduct.imageBase64) {
+                setSelectedImage(`data:image/png;base64,${editProduct.imageBase64}`);
+              }
+        }else{
+            setSelectedImage(null);
         }
     }, [editProduct]);
  
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setProductData({ ...productData, [name]: value });
+        
     };
  
     const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        setSelectedImage(file);
+        console.log('handleImageChange', e.target.files);
+       if (e.target.files.length > 0) {
+    const file = e.target.files[0];
+    setSelectedImage(file);
+  } else {
+    setSelectedImage(null);
+  }
     };
  
     const handleSubmit = (e) => {
@@ -832,14 +842,20 @@ const AddProductForm = ({ setShowAddForm, setProducts, editProduct }) => {
         formData.append('brand', productData.brand);
         formData.append('categoryId', productData.categoryId);
         formData.append('subCategoryId', productData.subCategoryId);   
-       
+      
         //productVariants
         formData.append('addProductVariantsJson', JSON.stringify(productData.productVariants));
 
-        if (selectedImage) {
+        if (selectedImage && typeof selectedImage !== 'string') {
             formData.append('imageFile', selectedImage);
-        }
-   
+          } else if (editProduct?.imageBase64 && !selectedImage) {
+            // If the image is an existing one, send the imageBase64 to preserve it
+            formData.append('imageBase64', editProduct.imageBase64);
+          }
+
+          console.log('handleSubmit', formData);
+
+
         const request = editProduct
             ? axios.put(`https://localhost:7181/api/Product/EditProductVariant${editProduct.productId}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
@@ -901,7 +917,7 @@ const AddProductForm = ({ setShowAddForm, setProducts, editProduct }) => {
             ],
         });
         setSelectedImage(null);
-      
+   
     };
  
     return (
@@ -913,9 +929,16 @@ const AddProductForm = ({ setShowAddForm, setProducts, editProduct }) => {
             <input type="text" name="brand" placeholder="Brand" value={productData.brand} onChange={handleInputChange} required />
             <input type="number" name="categoryId" placeholder="Category ID" value={productData.categoryId} onChange={handleInputChange} required />
             <input type="number" name="subCategoryId" placeholder="Sub Category ID" value={productData.subCategoryId} onChange={handleInputChange} required />
-            
+            {/* Display the current image if available */}
+            {editProduct && selectedImage && typeof selectedImage === 'string' && (
+                <div>
+                    <img src={selectedImage} alt="Product" width="100" />
+                </div>
+            )}
+
             <input type="file" name="imageFile" onChange={handleImageChange} accept="image/*" />
-             {/* Embedded Product Variants */}
+
+            {/* Product Variants */}
        {productData.productVariants.map((variant, index) => (
         <div key={index} className="variant-row">
             <input
