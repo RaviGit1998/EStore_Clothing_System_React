@@ -135,7 +135,18 @@
 .add-product-form button:hover {
     opacity: 0.9;
 }
+.variant-row{
+    display: flex;
+    gap: 10px; 
+    flex: 1 1 1 1 48%;
+}
  
+.variant-row input{
+    flex: 1 1 48%; /* Take up 48% of the row, with room for gap */
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
     .product-grid-container {
@@ -155,4 +166,49 @@
     .add-product-form input {
         width: 100%;
     }
+}
+
+/* Filter Container */
+.filter-container {
+    display: flex;
+    justify-content: space-between; /* Space out filter controls */
+    align-items: center; /* Center align items */
+    margin-bottom: 20px; /* Space below the filter container */
+    background-color: #f0f0f0; /* Light background for filter */
+    padding: 15px; /* Padding inside filter container */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+ 
+/* Filter Inputs */
+.filter-container input[type="text"],
+.filter-container input[type="number"],
+.filter-container select {
+    width: 100%; /* Full width */
+    max-width: 180px; /* Maximum width */
+    padding: 10px; /* Padding inside inputs */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 14px; /* Font size */
+    transition: border-color 0.3s; /* Transition effect for border color */
+}
+ 
+/* Filter Inputs on Focus */
+.filter-container input[type="text"]:focus,
+.filter-container input[type="number"]:focus,
+.filter-container select:focus {
+    border-color: #ff6f00; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+ 
+/* Filter Button */
+.filter-container button {
+    background-color: #007bff; /* Blue background for filter button */
+    color: white; /* White text */
+    padding: 10px 15px; /* Padding for button */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    font-size: 14px; /* Font size */
+    transition: background-color 0.3s; /* Transition effect for background */
 }

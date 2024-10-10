@@ -221,7 +221,7 @@ export default function OrderSummary({id}) {
   <option value="MEGASALE">MEGASALE</option>
 </select>
 
-{isCouponApplied && totalAmount <= 999 &&  couponCode !== '' && (
+{couponCode.isApplied && totalAmount <= 999 &&  couponCode !== '' && (
   <p style={{ color: 'red', marginTop: '10px' }}>
     Coupon code can only be applied for orders above $999.
   </p>

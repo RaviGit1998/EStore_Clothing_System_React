@@ -250,14 +250,16 @@ const ProductFilter = ({ id, onFilterChange, onPriceRangeChange }) => {
           {showSizes && (
             <div className="size-options">
               {['S', 'M', 'L', 'XL'].map((size) => (
-                <label key={size}>
+                <label key={size} style={{display:'flex',alignItems:'center'}}>
+                    { <span style={{ marginLeft: 4 }}>{size}</span> }
                   <input
                     type="checkbox"
                     value={size}
                     checked={selectedSize.includes(size)}
-                    onChange={handleSizeChange}
+                    onChange={handleSizeChange} 
+                    style={{verticalAlign: 'middle',marginBottom:20}}                  
                   />
-                  {size}
+                
                 </label>
               ))}
             </div>
@@ -271,7 +273,7 @@ const ProductFilter = ({ id, onFilterChange, onPriceRangeChange }) => {
           {showColors && (
             <div className="color-options">
               {['Red', 'Blue', 'White', 'Black', 'Yellow', 'Green', 'Maroon', 'Pink', 'Orange', 'Grey', 'Sky Blue'].map((color) => (
-                <label key={color}>
+                <label key={color} >
                   <input
                     type="checkbox"
                     value={color}

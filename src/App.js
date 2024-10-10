@@ -107,7 +107,7 @@ function App() {
     <CartProvider>
     <RouterProvider router={router}></RouterProvider>
     <div>
-      <ToastContainer autoClose={1000}/>
+      <ToastContainer autoClose={1500}/>
     </div>
     </CartProvider>
     </>
