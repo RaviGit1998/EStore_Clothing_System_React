@@ -21,6 +21,7 @@ import ProductGrid from './components/Admin/ProductGrid';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
  
 function App() {
   const [userRole, setUserRole] = useState('');
@@ -106,9 +107,9 @@ function App() {
     <>
     <CartProvider>
     <RouterProvider router={router}></RouterProvider>
-    <div>
+    
       <ToastContainer autoClose={1500}/>
-    </div>
+    
     </CartProvider>
     </>
   );

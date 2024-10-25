@@ -119,24 +119,31 @@ function SuccessPage() {
  console.log('State:', state);
  
  const { shippingDetails }=useContext(CartContext);
- 
+
+//  const {
+//   orderItems = [], // Default to an empty array if orderItems is undefined
+//   totalAmount = 0,
+//   discountedTotal = 0,
+//   paymentMethod,
+// } = state || {};
  if (!state) {
    return <div>No order details available.</div>;
  }
- const { orderItems, totalAmount, discountedTotal } = state;
- 
- 
+ const { orderItems, totalAmount, discountedTotal,paymentMethod } = state;
+ console.log("payment method",paymentMethod);
  console.log('Shipping details in the  SuccessPage:', shippingDetails);
 //console.log('traackign number' ,shippingDetails.trackingNumber)
  console.log("order items",orderItems);
+
+ 
  return (
    <div className="container mt-4">
-         <h2>Order Successful!</h2>
+         <h2>Order has been placed Successfully!</h2>
      <h2>Order Details</h2>
      <ul className="list-group">
    
        {orderItems.map(item => (
-         <li key={item.productVariants[0].productVariantId} className="list-group-item d-flex justify-content-between align-items-center" style={{width:"500px"}}>
+         <li key={item.selectedVariant.productVariantId} className="list-group-item d-flex justify-content-between align-items-center" style={{width:"500px"}}>
            <div>
              <img
                src={`data:image/png;base64,${item.imageBase64}`}
@@ -144,21 +151,25 @@ function SuccessPage() {
                className="product-image-main"
                style={{ width: "400px", height: "500px" }}
              />
-             <h5>{item.name}</h5>
+             <h5 style={{marginTop:'10px'}}>{item.name}</h5>
              <p>{item.shortDescription}</p>
-             <p>size : {item.productVariants[0].size}</p>
-             <p>color : {item.productVariants[0].color}</p>
-             <p>${item.productVariants[0].pricePerUnit} x {item.quantity}</p>
+             <p>size : {item.selectedVariant.size}</p>
+             <p>color : {item.selectedVariant.color}</p>
+             <p>${item.selectedVariant.pricePerUnit} x {item.quantity}</p>
            </div>
          </li>
        ))}
      </ul>
      <h4 className="mt-4">Total: ${totalAmount}</h4>
-     {discountedTotal !== null && (
-       <h4 className="mt-4">Total Amount Paid: ${discountedTotal}</h4>
-     )} <br />
- 
- 
+    
+
+      {paymentMethod === 'COD' ? (
+        <h4 className="mt-4">The total amount to be paid: ₹{discountedTotal}</h4>
+      ) : paymentMethod === 'Credit Card/Debit Card' ? (
+        <h4 className="mt-4">The total amount paid: ₹{discountedTotal}</h4>
+      ) : (
+        <p>Payment method not specified</p>
+      )}
  
 <h5 style={{textAlign:'left'}}>Shipping Details:</h5>
      <ul className="list-group">
@@ -169,7 +180,8 @@ function SuccessPage() {
          <p>Estimated Delivery Date: {new Date(shippingDetails.estimatedDeliveryDate).toDateString()}</p>
        </li>
      </ul>
- 
+
+   
      <Link to="/">
        <button className="btn btn-primary mt-4">Return to Home Page</button>
      </Link>

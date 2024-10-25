@@ -4,7 +4,7 @@ import './Footer.css'; // Assuming your CSS file is named Footer.css
 function Footer() {
   return (
     <>
-      <div className="footer">
+      <div className="footer mt-5">
         <div className="lists">
           <div>          
             <ul>
@@ -53,25 +53,25 @@ function Footer() {
           </div>
         </div>
         <div className="logo">
-        <img src="vastra.jpg"  alt="Logo" className="logoImg" />
+        <img src={`${process.env.PUBLIC_URL}/vastra.jpg`}  alt="Logo" className="logoImg" />
         </div>
         <div className="icons">
           <div>
             <h3>FOLLOW US</h3>
-            <a href="https://www.facebook.com/vastrakurtianddresses/"><img src="facebook.png" alt="Facebook Icon" /></a>
-            <a href="https://www.instagram.com/vastra_official/?hl=en"><img src="instagram.png" alt="Instagram Icon" /></a>
-            <a href="https://www.instagram.com/vastra_official/?hl=en"><img src="twitter.png" alt="Twitter Icon" /></a>
+            <a href="https://www.facebook.com/vastrakurtianddresses/"><img src={`${process.env.PUBLIC_URL}/facebook.png`} alt="Facebook Icon" /></a>
+            <a href="https://www.instagram.com/vastra_official/?hl=en"><img src={`${process.env.PUBLIC_URL}/instagram.png`} alt="Instagram Icon" /></a>
+            <a href="https://www.instagram.com/vastra_official/?hl=en"><img src={`${process.env.PUBLIC_URL}/twitter.png`} alt="Twitter Icon" /></a>
           </div>
           <div>
             <h3>EXPERIENCE VASTRA ONLINE</h3>
             <img className="iconsimg2"
-              src="gplay.png"
+              src={`${process.env.PUBLIC_URL}/gplay.png`}
               alt="Google Play"
               width="100px"
               height="40px"
             />
             <img className="iconsimg2"  
-              src="appStore.png" 
+             src={`${process.env.PUBLIC_URL}/appStore.png`}
               alt="Apple App Store"
               width="100px"
               height="40px"

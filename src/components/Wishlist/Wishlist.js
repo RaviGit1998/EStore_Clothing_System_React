@@ -1,27 +1,70 @@
+
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import './Wishlist.css';  // Make sure you have the CSS file for styling
-import { ToastContainer,toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import './Wishlist.css';  
+import { showErrorToast, showSuccessToast } from '../Toasting/ThrottledToast';
+ import { jwtDecode } from 'jwt-decode';
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
-
+ 
   useEffect(() => {
     const fetchWishlist = () => {
-      const savedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-      setWishlist(savedWishlist);
+      const token = localStorage.getItem('jwtToken');
+      const decodedToken = jwtDecode(token); 
+      const userId = decodedToken.sub;   
+ 
+      if (token) {
+        fetch(`https://localhost:7181/api/Wishlist/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          setWishlist(data);
+        })
+        .catch(err => {
+          console.error('Error fetching wishlist:', err);
+        });
+      }
     };
     fetchWishlist();
   }, []);
-
+ 
   const handleRemoveFromWishlist = (productId) => {
-    const updatedWishlist = wishlist.filter(item => item.productId !== productId);
-    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
-    setWishlist(updatedWishlist);
+    const token = localStorage.getItem('jwtToken');
+    const decodedToken = jwtDecode(token);
+  
+    const userId = decodedToken.sub;  
+   
+ 
+    fetch(`https://localhost:7181/api/Wishlist/remove`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: userId,
+        productId: productId
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        setWishlist(prev => prev.filter(item => item.productId !== productId));
+        showSuccessToast("Item removed from wishlist");
+      } else {
+        showErrorToast("Failed to remove item from wishlist");
+      }
+    })
+    .catch(err => {
+      console.error('Error removing from wishlist:', err);
+      showErrorToast("Failed to remove item from wishlist");
+    });
   };
-
+ 
   if (wishlist.length === 0) return <p className="empty-wishlist">Your wishlist is empty.</p>;
-
+ 
   return (
     <div className="wishlist-container">
       <h1>Your Wishlist</h1>
@@ -29,18 +72,17 @@ const Wishlist = () => {
         {wishlist.map(product => (
           <li key={product.productId} className="wishlist-item">
             <div className="wishlist-item-image">
-              {product.imageBase64 ? (
-                <img src={`data:image/png;base64,${product.imageBase64}`} alt={product.name} className="wishlist-item-image-main" />
-              ) : (
-                <img src="fallback-image.jpg" alt={product.name} className="wishlist-item-image-main" />
-              )}
-            </div>
+              {product.imageData ? (
+                 <img src={`data:image/png;base64,${product.imageData}`} alt={product.name} className="wishlist-item-image-main" />
+               ) : (
+               <img src="fallback-image.jpg" alt={product.name} className="wishlist-item-image-main" />
+             )}
+             </div>
             <div className="wishlist-item-info">
               <h2 className="wishlist-item-title">{product.name}</h2>
-              <p className="wishlist-item-price">₹{product.productVariants?.[0]?.pricePerUnit || '0'}</p>
-              <NavLink to={`/product/${product.productId}`} className="btn6 btn btn-success">View Details</NavLink><br/>
-              <button 
-                className="btn6 btn btn-danger" 
+              <NavLink to={`/product/${product.productId}`} className="btn6 btn btn-success">View Details</NavLink>
+              <button
+                className="btn6 btn btn-danger"
                 onClick={() => handleRemoveFromWishlist(product.productId)}
               >
                 Remove from Wishlist
@@ -49,9 +91,8 @@ const Wishlist = () => {
           </li>
         ))}
       </ul>
-      
     </div>
   );
 };
-
+ 
 export default Wishlist;

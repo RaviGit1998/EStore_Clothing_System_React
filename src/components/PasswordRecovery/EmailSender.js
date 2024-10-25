@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
 import './EmailSender.css'
+import { showErrorToast, showSuccessToast } from '../Toasting/ThrottledToast';
 
 const EmailSender = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading]=useState(false);
 
   const handleChange = (e) => {
     setEmail(e.target.value);
@@ -15,6 +17,7 @@ const EmailSender = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
     
     try {
       const response = await axios.post('https://localhost:7181/api/Login/send-reset-link', email,{
@@ -22,13 +25,15 @@ const EmailSender = () => {
           'Content-Type': 'application/json',
         },} );
       if (response.status === 200) {
-        toast.success("Password reset email sent!");
+        showSuccessToast("Password reset email sent!");
         setMessage('Please check your email for further instructions.');
       }
       console.log(response.data);
     } catch (err) {
       setError(err.response.data.message || 'An error occurred. Please try again.');
-      toast.error("error occurred");
+      showErrorToast("error occurred");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -48,10 +53,14 @@ const EmailSender = () => {
             required
           />
         </div>
-
-        <button type="submit" className="btn btn-primary">Send Reset Link</button>
+        <button type="submit" className="btn btn-primary" disabled={loading}>
+          {loading ? (
+            <span>Sending... <i className="fas fa-spinner fa-spin"></i></span>
+          ) : (
+            <span>Send Reset Link</span>
+          )}          
+        </button>
       </form>
-      <ToastContainer />
     </div>
   );
 };

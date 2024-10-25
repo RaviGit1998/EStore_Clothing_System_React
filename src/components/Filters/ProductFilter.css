@@ -1,11 +1,11 @@
-.product-filter-page1 {
+
+ .product-filter-page1 {
   display: flex;
   gap: 20px;
   padding: 20px;
 }
 
 .filter-section-container1 {
-
   background-color: #f8f3f3;
   padding: 15px;
   border-radius: 8px;
@@ -16,21 +16,31 @@
   margin-bottom: 15px;
 }
 
+/* Input and select styling */
 .filter-section1 input,
 .filter-section1 select {
   display: block;
   margin-top: 15px;
   padding: 8px;
-  padding-left:25px;
-  padding-right:25px;
+  padding-left: 25px;
+  padding-right: 25px;
   width: 100%;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
+/* Label and checkbox styling for alignment */
 .filter-section1 label {
-  display: block;
+  display: flex;
+  align-items: center; /* Aligns the checkbox and text vertically */
+  gap: 8px; /* Adds space between the checkbox and the label text */
   margin-bottom: 5px;
+}
+
+.filter-section1 input[type="checkbox"] {
+  margin: 0;
+  width: auto; /* Ensures the checkbox doesn't stretch */
+  vertical-align: middle; /* Aligns the checkbox correctly */
 }
 
 .product-list-container1 {
@@ -56,7 +66,7 @@
   transition: box-shadow 0.3s ease;
 }
 
-.product-item:hover1 {
+.product-item1:hover {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -81,11 +91,19 @@
     grid-template-columns: 1fr;
   }
 }
-.reset-button{
-  border:none;
-  padding:10px;
-}
-.reset-button:hover{
-background-color:#fff;
+
+.reset-button {
+  border: none;
+  padding: 10px;
+  background-color: #ff6f61; 
+  color: white; 
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.reset-button:hover {
+  background-color: #fff; 
+  color: #ff6f61; 
+  border: 1px solid #ff6f61; 
+}
